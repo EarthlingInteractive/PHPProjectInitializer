@@ -1,11 +1,5 @@
 {
 	"description": "{#projectName}",
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "http://robert.earthit.com/~stevens/git/EarthIT/PHPCommon.git"
-		}
-	],
 	"require": {
 		"php": ">=5.2.0",
 		"ryprop/nife": "~0.0.1",
