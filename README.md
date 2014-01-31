@@ -64,18 +64,27 @@ Config JSON files should not be checked into the repository, but
 example config files (with a .example extension) may be to give
 hints to people who check out the project.
 
-I don't really like that the directory Composer sticks all its dependencies
+I don't really like that the directory where Composer sticks all its dependencies
 is called 'vendor' because it doesn't indicate the purpose of that directory
 (something like "composer-managed-php-libraries" would be better), but AFAIK
 there's any way to configure that, so we just have to remember that 'vendor'
-means 'directory containing Composer-managed PHP libraries'.
+means 'directory containing Composer-managed PHP libraries', similar to how
+we need to remember that ```package.json``` is the file defining our Node.js
+dependencies despite its generic name.
 
 ### PHP Code Structure
 
-Everything except for bootstrapping code, view templates, and a few utility
+All PHP code except for bootstrapping code, view templates, and a few utility
 functions (coalesce, ezdie) should be in classes.
 
-All classes should be namespaced.  e.g. "First30_Registry"
+All classes should be namespaced.  e.g. "CoolNewProject_Registry".
+
+I prefer underscores to the backslash-delimited namespace style
+intruduced by PHP 5.3 because it makes it easier to tell at a glance
+exactly what classes are being referenced.  Projects created with this
+setter-upper include a class loader that will alias between
+```SomePackage_SomeClass``` and ```SomePackage\SomeClass``` as
+needed.
 
 #### Configuration
 
