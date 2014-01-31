@@ -83,6 +83,7 @@ function prompt( $name, $defaultValue='' ) {
 }
 
 $projectName = null;
+$projectNamespace = null;
 $interactive = false;
 $showHelp = false;
 $projectDir = '.';
@@ -99,16 +100,21 @@ for( $i=1; $i<$argc; ++$i ) {
 		$interactive = true;
 		break;
 	default:
-		if( $arg[0] != '-' and $projectName === null ) {
-			$projectName = $arg;
-		} else {
-			dieForUsageError("Unrecognized argument: '$arg'");
+		if( $arg[0] != '-' ) {
+			if( $projectName === null ) {
+				$projectName = $arg;
+				break;
+			} else if( $projectNamespace === null ) {
+				$projectNamespace = $arg;
+				break;
+			}
 		}
+		dieForUsageError("Unrecognized argument: '$arg'");
 	}
 }
 
 if( $showHelp ) {
-	fwrite( STDOUT, "Usage: {$argv[0]} [<project name>] [-i] [-?]\n" );
+	fwrite( STDOUT, "Usage: {$argv[0]} [<project name>] [<namespace>] [-i] [-?]\n" );
 	fwrite( STDOUT, "Options:\n" );
 	fwrite( STDOUT, "  -i ; interactive\n" );
 	fwrite( STDOUT, "  -? ; show help\n" );
@@ -128,5 +134,8 @@ if( $interactive ) {
 	$setupper->projectNamespace = prompt( "PHP class namespace", $setupper->projectNamespace );
 } else {
 	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName );
+	if( $projectNamespace ) {
+		$setupper->projectNamespace = $projectNamespace;
+	}
 }
 $setupper->run();
