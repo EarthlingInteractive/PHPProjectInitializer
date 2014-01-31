@@ -19,27 +19,28 @@ Projects should be and/or use Composer-compatible packages.
 
 The root folder of a project should contain:
 
-  www/              ; Files and scripts used by Apache
-  www/bootstrap.php ; All requests to non-static files go through here
-  www/.htaccess     ; Tells apache to rewrite requests to bootstrap.php/$1
+```
+  www/            ; Files and scripts used by Apache
+    bootstrap.php ; All requests to non-static files go through here
+    .htaccess     ; Tells Apache to rewrite requests to bootstrap.php/$1
 
-  config/          ; Application configuration
-  config/dbc.json  ; Database connection configuration
-  config/auth.json ; Security configuration
+  config/         ; Application configuration
+    dbc.json      ; Database connection configuration
+    auth.json     ; Security configuration
+    ...etc...     ; More config files as needed by your project.
   
-  ; config JSON files should not be checked into the repository, but
-  ; example config files (with a .example extension) may be.
-  
-  composer.json ; Tells Composer about dependencies
-  schema.txt    ; Describes the data classes
+  composer.json   ; Tells Composer about dependencies
+  schema.txt      ; Describes the data classes
   Makefile (or equivalent)
-  util/     ; Utility programs used by build scripts
-  build/    ; Scripts and other files used for offline initialization of the project
-  build/db/upgrades/   ; database upgrade scripts
-  build/db/procedures/ ; scripts to initialize procedures (run after every update)
-  build/db/triggers/   ; scripts to initialize triggers (run after every update)
-  lib/      ; PHP classes not managed by Composer go in here
-  vendor/   ; Composer sticks dependencies in here.  It doesn't get checked in.
+  util/           ; Utility programs used by build scripts
+  build/          ; Scripts and other files used for offline initialization of the project
+    db/           ; Database-related
+      upgrades/   ; Database upgrade scripts
+      procedures/ ; Scripts to initialize procedures (run after every update)
+      triggers/   ; Scripts to initialize triggers (run after every update)
+  lib/            ; PHP classes not managed by Composer go in here
+  vendor/         ; Composer sticks dependencies in here.  Should be .gitignored.
+```
 
 Any other static files (images, CSS, JavaScript) go in www/.
 For example, javascript might get compiled to www/js/cool-app.js.
@@ -57,6 +58,10 @@ The Makefile should have 'clean' and 'all' targets that
 remove and build everything the project needs to run, respectively.
 
 Config files are JSON instead of PHP so that non-PHP utilities can read them.
+
+Config JSON files should not be checked into the repository, but
+example config files (with a .example extension) may be to give
+hints to people who check out the project.
 
 I don't really like that the directory Composer sticks all its dependencies
 is called 'vendor' because it doesn't indicate the purpose of that directory
