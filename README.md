@@ -107,7 +107,7 @@ affected by configuration:
   it delegates to.  bootstrap.php does the actual outputting of them.
 - Requests are not generally encapsulated, though paths are usually
   passed around explicitly.  When access to request data is needed,
-  just use $_GET, $_SERVER, $_SESSION, etc. directly.
+  just use ```$_GET```, ```$_SERVER```, ```$_SESSION```, etc. directly.
 
 #### Database access
 
