@@ -53,8 +53,10 @@ class EarthIT_PHP_ProjectSetupper {
 		$p = $this->projectDir;
 		$n = $this->projectNamespace;
 		$l = $this->getProjectLibDir();
+		$this->templatify( $t.'/.gitignore.tpl', $p.'/.gitignore' );
 		$this->templatify( $t.'/www/.htaccess.tpl', $p.'/www/.htaccess' );
 		$this->templatify( $t.'/www/bootstrap.php.tpl', $p.'/www/bootstrap.php' );
+		$this->templatify( $t.'/config/.gitignore.tpl', $p.'/config/.gitignore' );
 		$this->templatify( $t.'/config/dbc.json.tpl', $p.'/config/dbc.json' );
 		$this->templatify( $t.'/lib/Registry.php.tpl', $p.'/'.$l.'/Registry.php' );
 		$this->templatify( $t.'/lib/Dispatcher.php.tpl', $p.'/'.$l.'/Dispatcher.php' );
