@@ -103,8 +103,8 @@ affected by configuration:
 #### Serving web pages
 
 - HTTP responses are represented as Nife_HTTP_Response objects and are
-  returned to by the dispatcher and, presumably, whatever components
-  it delegates to.
+  returned by the dispatcher and, presumably, whatever components
+  it delegates to.  bootstrap.php does the actual outputting of them.
 - Requests are not generally encapsulated, though paths are usually
   passed around explicitly.  When access to request data is needed,
   just use $_GET, $_SERVER, $_SESSION, etc. directly.
@@ -132,7 +132,7 @@ we do choose to use one) can be automatically generated.
 
 #### Objects
 
-Data objects are dumb; possibly just array of field name => value.
+Data objects are dumb; possibly just arrays of field name => value.
 
 Storage, retrieval, and validation is not done by the objects themselves
 but by accessor components.
