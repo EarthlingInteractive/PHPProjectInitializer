@@ -8,8 +8,7 @@
 	},
 	"autoload": {
 		"psr-0": {
-			"{#projectNamespace}_": "lib/",
-			"EarthIT_": "lib/"
+			"{#projectNamespace}_": "lib/"
 		}
 	}
 }

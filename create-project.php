@@ -11,9 +11,15 @@ class EarthIT_PHP_ProjectSetupper {
 		$this->templateDir = $tplDir;
 		$this->projectDir  = $projDir;
 		$this->projectName = $projName;
-		$fixName = str_replace('-',' ',$projName);
-		$fixName = preg_replace('/[^a-z0-9 ]/i','',$fixName);
-		$this->projectNamespace = str_replace(' ','',ucwords($fixName));
+		$fixName = strtr( $projName, array('-'=>' ','/'=>'_','\\'=>'_') );
+		$fixName = preg_replace('/[^a-z0-9 _]/i','',$fixName);
+		
+		$ucName = ucwords($fixName);
+		$this->projectNamespace = str_replace(' ','',$ucName);
+	}
+	
+	public function getProjectLibDir() {
+		return 'lib/'.str_replace(array('_','\\'),'/',$this->projectNamespace);
 	}
 	
 	protected function templatify( $source, $dest ) {
@@ -23,8 +29,11 @@ class EarthIT_PHP_ProjectSetupper {
 		if( $c === false ) {
 			throw new Exception("Failed to read template from file: $source");
 		}
-		$c = str_replace( '{#projectNamespace}', $this->projectNamespace, $c );
-		$c = str_replace( '{#projectName}', $this->projectName, $c );
+		$c = strtr( $c, array(
+			'{#projectNamespace}' => $this->projectNamespace,
+			'{#projectName}' => $this->projectName,
+			'{#projectLibDir}' => $this->getProjectLibDir(),
+		));
 		
 		$destDir = dirname($dest);
 		if( !is_dir($destDir) ) {
@@ -43,11 +52,12 @@ class EarthIT_PHP_ProjectSetupper {
 		$t = $this->templateDir;
 		$p = $this->projectDir;
 		$n = $this->projectNamespace;
+		$l = $this->getProjectLibDir();
 		$this->templatify( $t.'/www/.htaccess.tpl', $p.'/www/.htaccess' );
 		$this->templatify( $t.'/www/bootstrap.php.tpl', $p.'/www/bootstrap.php' );
 		$this->templatify( $t.'/config/dbc.json.tpl', $p.'/config/dbc.json' );
-		$this->templatify( $t.'/lib/Registry.php.tpl', $p.'/lib/'.$n.'/Registry.php' );
-		$this->templatify( $t.'/lib/Dispatcher.php.tpl', $p.'/lib/'.$n.'/Dispatcher.php' );
+		$this->templatify( $t.'/lib/Registry.php.tpl', $p.'/'.$l.'/Registry.php' );
+		$this->templatify( $t.'/lib/Dispatcher.php.tpl', $p.'/'.$l.'/Dispatcher.php' );
 		if( $this->templatify( $t.'/composer.json.tpl', $p.'/composer.json' ) ) {
 			system('composer install');
 		}
