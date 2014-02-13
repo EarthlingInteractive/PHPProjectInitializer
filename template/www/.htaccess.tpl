@@ -1,5 +1,16 @@
 RewriteEngine On
 
-# Don't rewrite bootstrap.php/ URLs or there would be an infinite rewrite loop!
-RewriteCond %{REQUEST_FILENAME} !bootstrap.php.*
+# Protect hidden files from being viewed
+<Files .*>
+	Order Deny,Allow
+	Deny From All
+</Files>
+
+# Allow any files or directories (other than /) that exist to be displayed directly
+# Note that -f includes bootstrap.php.
+# Otherwise we'd need a separate rule to avoid infinite loops.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d [or]
+RewriteCond %{REQUEST_FILENAME} "/"
+# Otherwise, rewrite everything else to bootstrap.php/<whatever>
 RewriteRule .* bootstrap.php/$0 [PT]
