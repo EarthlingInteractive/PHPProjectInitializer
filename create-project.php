@@ -7,15 +7,30 @@ class EarthIT_PHP_ProjectSetupper {
 	public $projectName;
 	public $projectNamespace;
 	
-	public function __construct( $tplDir, $projDir, $projName ) {
+	public function __construct( $tplDir, $projDir, $projName, $projNamespace ) {
 		$this->templateDir = $tplDir;
 		$this->projectDir  = $projDir;
 		$this->projectName = $projName;
-		$fixName = strtr( $projName, array('-'=>' ','/'=>'_','\\'=>'_') );
-		$fixName = preg_replace('/[^a-z0-9 _]/i','',$fixName);
-		
-		$ucName = ucwords($fixName);
-		$this->projectNamespace = str_replace(' ','',$ucName);
+		$this->projectNamespace = $projNamespace;
+	}
+	
+	public function initDefaults() {
+		if( $this->templateDir === null ) {
+			throw new Exception("No default for template directory.");
+		}
+		if( $this->projectName === null ) {
+			throw new Exception("No default for project name.");
+		}
+		if( $this->projectDir === null ) {
+			throw new Exception("No default for project directory.");
+		}
+		if( $this->projectNamespace === null ) {
+			$fixName = strtr( $this->projectName, array('-'=>' ','/'=>'_','\\'=>'_') );
+			$fixName = preg_replace('/[^a-z0-9 _]/i','',$fixName);
+			$ucName = ucwords($fixName);
+			
+			$this->projectNamespace = str_replace(' ','',$ucName);
+		}
 	}
 	
 	public function getProjectLibDir() {
@@ -135,7 +150,8 @@ $templateDir = dirname(__FILE__)."/template";
 if( $interactive ) {
 	$projectName = prompt( "Project name", $projectName );
 	$projectDir = prompt( "Project directory", $projectDir );
-	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName );
+	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName, $projectNamespace );
+	$setupper->initDefaults();
 	$setupper->projectNamespace = prompt( "PHP class namespace", $setupper->projectNamespace );
 } else {
 	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName );
