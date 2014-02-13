@@ -63,7 +63,7 @@ class EarthIT_PHP_ProjectSetupper {
 		$this->templatify( $t.'/lib/Registry.php.tpl', $p.'/'.$l.'/Registry.php' );
 		$this->templatify( $t.'/lib/Dispatcher.php.tpl', $p.'/'.$l.'/Dispatcher.php' );
 		if( $this->templatify( $t.'/composer.json.tpl', $p.'/composer.json' ) ) {
-			system('composer install');
+			system('cd '.escapeshellarg($p).' && composer install');
 		}
 	}
 }
