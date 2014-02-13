@@ -69,6 +69,7 @@ class EarthIT_PHP_ProjectSetupper {
 		$n = $this->projectNamespace;
 		$l = $this->getProjectLibDir();
 		$this->templatify( $t.'/.gitignore.tpl', $p.'/.gitignore' );
+		$this->templatify( $t.'/README.md.tpl', $p.'/README.md' );
 		$this->templatify( $t.'/init-www-error-handling.php.tpl', $p.'/init-www-error-handling.php' );
 		$this->templatify( $t.'/init-environment.php.tpl', $p.'/init-environment.php' );
 		$this->templatify( $t.'/www/.htaccess.tpl', $p.'/www/.htaccess' );
