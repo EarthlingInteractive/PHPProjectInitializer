@@ -120,8 +120,9 @@ for( $i=1; $i<$argc; ++$i ) {
 if( $showHelp ) {
 	fwrite( STDOUT, "Usage: {$argv[0]} [<project name>] [<namespace>] [-i] [-?]\n" );
 	fwrite( STDOUT, "Options:\n" );
-	fwrite( STDOUT, "  -i ; interactive\n" );
-	fwrite( STDOUT, "  -? ; show help\n" );
+	fwrite( STDOUT, "  -i       ; interactive\n" );
+	fwrite( STDOUT, "  -o <dir> ; specify output directory (defaults to '.')\n" );
+	fwrite( STDOUT, "  -?       ; show help\n" );
 	exit(0);
 }
 
