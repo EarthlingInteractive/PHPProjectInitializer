@@ -7,6 +7,11 @@ class EarthIT_PHP_ProjectSetupper {
 	public $projectName;
 	public $projectNamespace;
 	
+	public $databaseName;
+	public $databaseHost;
+	public $databaseUser;
+	public $databasePassword;
+	
 	public function __construct( $tplDir, $projDir, $projName, $projNamespace ) {
 		$this->templateDir = $tplDir;
 		$this->projectDir  = $projDir;
@@ -31,6 +36,10 @@ class EarthIT_PHP_ProjectSetupper {
 			
 			$this->projectNamespace = str_replace(' ','',$ucName);
 		}
+		$this->databaseName = str_replace('/[^a-z0-9]/','',strtolower($this->projectName));
+		$this->databaseHost = 'localhost';
+		$this->databaseUser = $this->databaseName;
+		$this->databasePassword = $this->databaseName;
 	}
 	
 	public function getProjectLibDir() {
@@ -40,6 +49,23 @@ class EarthIT_PHP_ProjectSetupper {
 	protected function templatify( $source, $dest ) {
 		if( file_exists($dest) ) return false;
 		
+		if( is_dir($source) ) {
+			$dh = opendir($source);
+			while( ($fn = readdir($dh)) !== false ) {
+				if( $fn == '.' or $fn == '..' ) continue;
+				$subSource = "{$source}/{$fn}";
+				if( preg_match('/(.*)\.tpl$/', $fn, $bif) ) {
+					$this->templatify( $subSource, "{$dest}/{$bif[1]}" );
+				} else if( is_dir($subSource) ) {
+					$this->templatify( $subSource, "{$dest}/{$fn}" );
+				} else {
+					throw new Exception("Unhandled template file: $subSource");
+				}
+			}
+			closedir($dh);
+			return;
+		}
+		
 		$c = file_get_contents( $source );
 		if( $c === false ) {
 			throw new Exception("Failed to read template from file: $source");
@@ -48,6 +74,10 @@ class EarthIT_PHP_ProjectSetupper {
 			'{#projectNamespace}' => $this->projectNamespace,
 			'{#projectName}' => $this->projectName,
 			'{#projectLibDir}' => $this->getProjectLibDir(),
+			'{#databaseName}' => $this->databaseName,
+			'{#databaseHost}' => $this->databaseHost,
+			'{#databaseUser}' => $this->databaseUser,
+			'{#databasePassword}' => $this->databasePassword,
 		));
 		
 		$destDir = dirname($dest);
@@ -56,7 +86,9 @@ class EarthIT_PHP_ProjectSetupper {
 				throw new Exception("Failed to create directory: $destDir");
 			}
 		}
-		if( file_put_contents( $dest, $c ) === false ) {
+		if( $dest == '-' ) {
+			echo $c;
+		} else if( file_put_contents( $dest, $c ) === false ) {
 			throw new Exception("Failed to write file: $dest");
 		}
 		
@@ -68,19 +100,26 @@ class EarthIT_PHP_ProjectSetupper {
 		$p = $this->projectDir;
 		$n = $this->projectNamespace;
 		$l = $this->getProjectLibDir();
+		$dbName = $this->databaseName;
+		$this->templatify( $t.'/build',  $p.'/build' );
+		$this->templatify( $t.'/config', $p.'/config' );
+		$this->templatify( $t.'/lib',    $p.'/'.$l );
+		$this->templatify( $t.'/schema', $p.'/schema' );
+		$this->templatify( $t.'/www',    $p.'/www' );
 		$this->templatify( $t.'/.gitignore.tpl', $p.'/.gitignore' );
 		$this->templatify( $t.'/README.md.tpl', $p.'/README.md' );
+		$this->templatify( $t.'/Makefile.tpl', $p.'/Makefile' );
+		if( $dbName ) {
+			$pDbScript = $p.'/util/'.$dbName.'-psql';
+			$this->templatify( $t.'/util/psql.tpl', $pDbScript );
+			chmod( $pDbScript, 0700 );
+		}
 		$this->templatify( $t.'/init-www-error-handling.php.tpl', $p.'/init-www-error-handling.php' );
 		$this->templatify( $t.'/init-environment.php.tpl', $p.'/init-environment.php' );
-		$this->templatify( $t.'/www/.htaccess.tpl', $p.'/www/.htaccess' );
-		$this->templatify( $t.'/www/bootstrap.php.tpl', $p.'/www/bootstrap.php' );
-		$this->templatify( $t.'/config/.gitignore.tpl', $p.'/config/.gitignore' );
-		$this->templatify( $t.'/config/dbc.json.tpl', $p.'/config/dbc.json' );
-		$this->templatify( $t.'/lib/Registry.php.tpl', $p.'/'.$l.'/Registry.php' );
-		$this->templatify( $t.'/lib/Dispatcher.php.tpl', $p.'/'.$l.'/Dispatcher.php' );
 		if( $this->templatify( $t.'/composer.json.tpl', $p.'/composer.json' ) ) {
 			system('cd '.escapeshellarg($p).' && composer install');
 		}
+		$this->templatify( $t.'/WELCOME.tpl', '-' );
 	}
 }
 
@@ -154,10 +193,15 @@ if( $interactive ) {
 	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName, $projectNamespace );
 	$setupper->initDefaults();
 	$setupper->projectNamespace = prompt( "PHP class namespace", $setupper->projectNamespace );
+	$setupper->databaseName = prompt( "Database name", $setupper->databaseName );
+	$setupper->databaseUser = prompt( "Database user", $setupper->databaseUser );
+	$setupper->databaseHost = prompt( "Database host", $setupper->databaseHost );
+	$setupper->databasePassword = prompt( "Database password", $setupper->databasePassword );
 } else {
-	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName );
+	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName, $projectNamespace );
 	if( $projectNamespace ) {
 		$setupper->projectNamespace = $projectNamespace;
 	}
+	$setupper->initDefaults();
 }
 $setupper->run();

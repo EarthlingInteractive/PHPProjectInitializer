@@ -8,4 +8,12 @@ class {#projectNamespace}_Registry extends EarthIT_Registry
 		}
 		return $this->dbAdapter;
 	}
+
+	public function getDbNamer() {
+		return new EarthIT_DBC_PostgresNamer();
+	}
+		
+	public function getSchema() {
+		return require {#projectNamespace}_ROOT_DIR.'/schema/schema.php';
+	}
 }

@@ -22,7 +22,7 @@ function eit_dump_error_and_exit2( $text, $backtrace, Exception $cause=null ) {
 }
 
 function eit_dump_error_and_exit( $errno, $errstr, $errfile, $errline, $errcontext ) {
-	eit_dump_error_and_exit2( "Error code=$errno: $errstr", debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS ) );
+	eit_dump_error_and_exit2( "Error code=$errno: $errstr", debug_backtrace( false ) );
 }
 
 function eit_dump_exception_and_exit( Exception $ex ) {

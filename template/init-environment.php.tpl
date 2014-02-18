@@ -2,9 +2,23 @@
 
 // This file
 // - Initializes autoloaders
+// - Initializes some global functions
 // - Creates and returns a new {#projectNamespace}_Registry
 
 require 'vendor/autoload.php';
+
+define('{#projectNamespace}_ROOT_DIR', __DIR__);
+
+function eit_get_request_content() {
+	static $read;
+	static $value;
+	 
+	if( !$read ) {
+		$value = file_get_contents('php://input');
+		$read = true;
+	}
+	return $value;
+}
 
 /**
  * In case other class loaders have failed,
