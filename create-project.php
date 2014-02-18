@@ -36,7 +36,7 @@ class EarthIT_PHP_ProjectSetupper {
 			
 			$this->projectNamespace = str_replace(' ','',$ucName);
 		}
-		$this->databaseName = str_replace('/[^a-z0-9]/','',strtolower($this->projectName));
+		$this->databaseName = preg_replace('/[^a-z0-9]/','',strtolower($this->projectName));
 		$this->databaseHost = 'localhost';
 		$this->databaseUser = $this->databaseName;
 		$this->databasePassword = $this->databaseName;
