@@ -17,7 +17,7 @@ run_schema_processor = \
 
 util/SchemaSchemaDemo.jar:
 	# TODO: Use some other server(s)
-	curl -o $@ 'http://pvps1.nuke24.net/uri-res/N2R?urn:bitprint:AMM2BUMDSSAUYL3R32KPX2X6EUH2V4DF.IMSLM7GMTRD6ZZ47PN5YAYPCP4KWHDMIJICXAEY'
+	curl -o $@ 'http://pvps1.nuke24.net/uri-res/N2R?urn:bitprint:4MQK6VUF5XWVCB7FX3M7UCGY3LM4BRAD.UDUKODS62IKTTXXOG7BKR5IG4RZUOAWOXFV4HPY'
 
 build/db/upgrades/0110-create-tables.sql: schema/schema.txt util/SchemaSchemaDemo.jar
 	${run_schema_processor}
