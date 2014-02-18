@@ -16,7 +16,7 @@ function eit_dump_error_and_exit2( $text, $backtrace, Exception $cause=null ) {
 	}
 	if( $cause != null ) {
 		echo "Caused by...\n";
-		$this->eit_dump_exception_and_exit($cause);
+		eit_dump_exception_and_exit($cause);
 	}
 	exit;
 }
