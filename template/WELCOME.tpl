@@ -9,7 +9,7 @@ logging in as root and running:
   CREATE USER {#databaseUser} WITH PASSWORD '{#databasePassword}';
   GRANT ALL PRIVILEGES ON DATABASE {#databaseName} TO {#databaseUser};
 
-Then at the command prompt, type:
+Then at the command prompt from within your project directory, type:
 
   make rebuild-database
 
