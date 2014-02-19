@@ -2,6 +2,7 @@
 
 function eit_dump_error_and_exit2( $text, $backtrace, Exception $cause=null ) {
 	if( !headers_sent() ) {
+		header('HTTP/1.0 500 Script Error');
 		header('Status: 500 Script Error');
 		header('Content-Type: text/plain');
 	}
