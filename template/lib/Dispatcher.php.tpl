@@ -7,7 +7,7 @@ class {#projectNamespace}_Dispatcher extends EarthIT_Component
 		static $requestContentObject;
 		if( !$requestRead ) {
 			switch( $_SERVER['REQUEST_METHOD'] ) {
-			case 'GET': case 'POST':
+			case 'GET': case 'HEAD':
 				$requestContentObject = null;
 				break;
 			default:
