@@ -2,7 +2,7 @@
 	"description": "{#projectName}",
 	"require": {
 		"php": ">=5.2.0",
-		"ryprop/nife": "~0.0.1",
+		"ryprop/nife": "~0.0.2",
 		"earthit/php-common": "~0.0.4",
 		"earthit/dbc": "~0.0.2",
 		"earthit/schema": "~0.0.2",

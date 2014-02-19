@@ -1,5 +1,9 @@
 <?php
 
+// If everything goes hunky-dory then this will be overridden later.
+// This helps make fatal errors more obvious.
+header('HTTP/1.0 500 Error By Default');
+
 // Turn off any output buffering
 while( ob_get_level() ) ob_end_clean();
 
