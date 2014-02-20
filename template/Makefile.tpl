@@ -15,9 +15,9 @@ run_schema_processor = \
 	-o-schema-php schema/schema.php -php-schema-class-namespace EarthIT_Schema \
 	schema/schema.txt
 
-util/SchemaSchemaDemo.jar:
+util/SchemaSchemaDemo.jar: Makefile
 	# TODO: Use some other server(s)
-	curl -o $@ 'http://pvps1.nuke24.net/uri-res/N2R?urn:bitprint:4MQK6VUF5XWVCB7FX3M7UCGY3LM4BRAD.UDUKODS62IKTTXXOG7BKR5IG4RZUOAWOXFV4HPY'
+	curl -o $@ 'http://pvps1.nuke24.net/uri-res/N2R?urn:bitprint:4V3CDFEIA4J7WI3Y4NOJGKGZPNCKP3E6.T2GEMT4AQ2LLDRPYWXEHUPNONRIMEIOH7RNMNAQ'
 
 build/db/upgrades/0110-create-tables.sql: schema/schema.txt util/SchemaSchemaDemo.jar
 	${run_schema_processor}
