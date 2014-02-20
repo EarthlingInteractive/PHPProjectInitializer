@@ -31,21 +31,21 @@ sequence 'new entity ID' : initial value @ 1001
 
 field modifier 'AIPK' = normal ID : is auto-incremented : key(primary)
 field modifier 'EIPK' = entity ID : default value sequence @ new entity ID : key(primary)
-field modifier 'SRC' = has a database table : has a REST service
+field modifier 'SRC' = has a database table : has a REST service # 'standard rest service'
 
-class 'user' : has a database table {
+class 'user' : SRC : members are public {
 	ID : EIPK
 	username : string
 	passhash : hash : nullable
 	e-mail address : e-mail address : nullable
 }
 
-class 'organization' : SRC {
+class 'organization' : SRC : members are public {
 	ID : EIPK
 	name : string
 }
 
-class 'user organization attachment' : SRC : self-keyed {
+class 'user organization attachment' : SRC : members are public : self-keyed {
 	user : reference(user) {
 		ID = user ID
 	}

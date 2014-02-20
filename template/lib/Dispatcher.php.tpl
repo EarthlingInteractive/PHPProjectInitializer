@@ -20,6 +20,10 @@ class {#phpNamespace}_Dispatcher extends EarthIT_Component
 		return $requestContentObject;
 	}
 	
+	protected function getCurrentUserId() {
+		return null;
+	}
+	
 	protected function getRester( EarthIT_Schema_ResourceClass $resourceClass ) {
 		$classNames = array(
 			'{#phpNamespace}_'.EarthIT_Schema_WordUtil::toPascalCase($resourceClass->getName()).'RESTer',
@@ -35,8 +39,13 @@ class {#phpNamespace}_Dispatcher extends EarthIT_Component
 	
 	public function handleRestRequest( $path ) {
 		if( $crReq = EarthIT_CMIPREST_CMIPRESTRequest::parse( $_SERVER['REQUEST_METHOD'], $path, $_REQUEST, self::getRequestContentObject() ) ) {
+			$crReq->userId = $this->getCurrentUserId();
 			$collectionName = $crReq->getResourceCollectionName();
-			$resourceClass = $this->registry->getSchema()->getResourceClass( EarthIT_Schema_WordUtil::depluralize($collectionName) );
+			try {
+				$resourceClass = $this->registry->getSchema()->getResourceClass( EarthIT_Schema_WordUtil::depluralize($collectionName) );
+			} catch( EarthIT_Schema_NoSuchResourceClass $un ) {
+				return EarthIT_CMIPREST_RESTer::errorResponse( 404, $un->getMessage() );
+			} 
 			return $this->getRester($resourceClass)->handle($crReq);
 		} else {
 			return null;
