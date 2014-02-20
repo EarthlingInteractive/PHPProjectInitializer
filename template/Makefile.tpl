@@ -16,6 +16,7 @@ run_schema_processor = \
 	schema/schema.txt
 
 util/SchemaSchemaDemo.jar: Makefile
+	rm -f $@
 	# TODO: Use some other server(s)
 	curl -o $@ 'http://pvps1.nuke24.net/uri-res/N2R?urn:bitprint:4V3CDFEIA4J7WI3Y4NOJGKGZPNCKP3E6.T2GEMT4AQ2LLDRPYWXEHUPNONRIMEIOH7RNMNAQ'
 

@@ -1,6 +1,6 @@
 <?php
 
-class {#projectNamespace}_Registry extends EarthIT_Registry
+class {#phpNamespace}_Registry extends EarthIT_Registry
 {
 	public function getDbAdapter() {
 		if( $this->dbAdapter === null ) {
@@ -14,6 +14,6 @@ class {#projectNamespace}_Registry extends EarthIT_Registry
 	}
 		
 	public function getSchema() {
-		return require {#projectNamespace}_ROOT_DIR.'/schema/schema.php';
+		return require {#phpNamespace}_ROOT_DIR.'/schema/schema.php';
 	}
 }

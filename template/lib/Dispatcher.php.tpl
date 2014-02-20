@@ -1,6 +1,6 @@
 <?php
 
-class {#projectNamespace}_Dispatcher extends EarthIT_Component
+class {#phpNamespace}_Dispatcher extends EarthIT_Component
 {
 	protected static function getRequestContentObject() {
 		static $requestRead;
@@ -22,8 +22,8 @@ class {#projectNamespace}_Dispatcher extends EarthIT_Component
 	
 	protected function getRester( EarthIT_Schema_ResourceClass $resourceClass ) {
 		$classNames = array(
-			'{#projectNamespace}_'.EarthIT_Schema_WordUtil::toPascalCase($resourceClass->getName()).'RESTer',
-			'{#projectNamespace}_RESTer',
+			'{#phpNamespace}_'.EarthIT_Schema_WordUtil::toPascalCase($resourceClass->getName()).'RESTer',
+			'{#phpNamespace}_RESTer',
 			'EarthIT_CMIPREST_RESTer'
 		);
 		foreach( $classNames as $cn ) {

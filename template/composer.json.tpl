@@ -11,7 +11,7 @@
 	},
 	"autoload": {
 		"psr-0": {
-			"{#projectNamespace}_": "lib/"
+			"{#phpNamespace}_": "lib/"
 		}
 	}
 }

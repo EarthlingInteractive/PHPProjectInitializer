@@ -3,11 +3,11 @@
 // This file
 // - Initializes autoloaders
 // - Initializes some global functions
-// - Creates and returns a new {#projectNamespace}_Registry
+// - Creates and returns a new {#phpNamespace}_Registry
 
 require 'vendor/autoload.php';
 
-define('{#projectNamespace}_ROOT_DIR', __DIR__);
+define('{#phpNamespace}_ROOT_DIR', __DIR__);
 
 function coalesce( &$v, $default=null ) {
 	return isset( $v ) ? $v : $default;
@@ -94,4 +94,4 @@ function eit_autoload_converted( $className ) {
 
 spl_autoload_register('eit_autoload_converted');
 
-return new {#projectNamespace}_Registry( __DIR__.'/config' );
+return new {#phpNamespace}_Registry( __DIR__.'/config' );

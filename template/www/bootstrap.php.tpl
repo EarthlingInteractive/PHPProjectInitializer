@@ -13,7 +13,7 @@ ini_set('error_reporting', E_ALL|E_STRICT);
 require '../init-www-error-handling.php';
 
 $registry = require '../init-environment.php';
-$dispatcher = $registry->getComponent('{#projectNamespace}_Dispatcher');
+$dispatcher = $registry->getComponent('{#phpNamespace}_Dispatcher');
 $response = $dispatcher->handleRequest( $_SERVER['PATH_INFO'] );
 
 Nife_Util::outputResponse( $response );
