@@ -36,6 +36,9 @@ class EarthIT_PHP_ProjectSetupper {
 		if( $this->projectDir === null ) {
 			throw new Exception("No default for project directory.");
 		}
+		
+		$littleProjectName = preg_replace('/[^a-z0-9]/','',strtolower($this->projectSettings->projectName));
+		
 		if( $this->projectSettings->phpNamespace === null ) {
 			$fixName = strtr( $this->projectSettings->projectName, array('-'=>' ','/'=>'_','\\'=>'_') );
 			$fixName = preg_replace('/[^a-z0-9 _]/i','',$fixName);
@@ -43,8 +46,10 @@ class EarthIT_PHP_ProjectSetupper {
 			
 			$this->projectSettings->phpNamespace = str_replace(' ','',$ucName);
 		}
+		
+		$this->projectSettings->nodePackageNamePrefix = preg_replace('/[^a-z0-9-]/','',str_replace(' ','-',strtolower($this->projectSettings->projectName)));
 		$this->projectSettings->deploymentUrlPrefix = 'http://'.preg_replace('/[^a-z0-9]/','',strtolower($this->projectSettings->projectName)).'.localhost/';
-		$this->projectSettings->databaseName = preg_replace('/[^a-z0-9]/','',strtolower($this->projectSettings->projectName));
+		$this->projectSettings->databaseName = $littleProjectName;
 		$this->projectSettings->databaseHost = 'localhost';
 		$this->projectSettings->databaseUser = $this->projectSettings->databaseName;
 		$this->projectSettings->databasePassword = $this->projectSettings->databaseName;
