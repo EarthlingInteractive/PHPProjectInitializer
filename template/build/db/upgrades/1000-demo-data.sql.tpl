@@ -1,13 +1,13 @@
 INSERT INTO "user"
-("id", "username", "passhash", "emailaddress") VALUES
-(nextval('entityid'), 'Freddie Mercury', 'blah', 'freddie@mercury.net'),
-(nextval('entityid'), 'David Bowie', 'blah', 'david@bowie.net');
+("username", "passhash", "emailaddress") VALUES
+('Freddie Mercury', 'blah', 'freddie@mercury.net'),
+('David Bowie', 'blah', 'david@bowie.net');
 
 INSERT INTO "organization"
-("id", "name") VALUES
-(nextval('entityid'), 'Queen'),
-(nextval('entityid'), 'The Konrads'),
-(nextval('entityid'), 'Riot Squad');
+("name") VALUES
+('Queen'),
+('The Konrads'),
+('Riot Squad');
 
 INSERT INTO "userorganizationattachment"
 ("userid", "organizationid") VALUES

@@ -1,16 +1,17 @@
-~~~~~~~~~~ Woohoo! ~~~~~~~~~~
+[36m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [5mWoohoo![0m[36m ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[39m
 
 You've set up {#projectName}!
 
 If you haven't already, you can set up a new postgres database by
 logging in as root and running:
 
-  CREATE DATABASE {#databaseName};
+[34m  CREATE DATABASE {#databaseName};
   CREATE USER {#databaseUser} WITH PASSWORD '{#databasePassword}';
-  GRANT ALL PRIVILEGES ON DATABASE {#databaseName} TO {#databaseUser};
+  GRANT ALL PRIVILEGES ON DATABASE {#databaseName} TO {#databaseUser};[0m
 
 Then at the command prompt from within your project directory, type:
 
-  make rebuild-database
+[34m  make rebuild-database[0m
 
 Happy hacking!
+[36m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[39m

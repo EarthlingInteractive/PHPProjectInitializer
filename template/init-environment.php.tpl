@@ -9,6 +9,55 @@ require 'vendor/autoload.php';
 
 define('{#projectNamespace}_ROOT_DIR', __DIR__);
 
+function coalesce( &$v, $default=null ) {
+	return isset( $v ) ? $v : $default;
+}
+
+function ezformat( $val, $indent='', $dindent='  ' ) {
+	if( is_array($val) ) {
+		if( empty($val) ) return 'array()';
+		$str = "array(\n";
+		foreach( $val as $k=>$v ) {
+			$str .= $indent.$dindent.var_export($k,true).' => '.ezformat($v,"$indent$dindent",$dindent).",\n";
+		}
+		$str .= "$indent)";
+		return $str;
+	} else {
+		return var_export($val,true);
+	}
+}
+
+function ezecho() {
+	if( !headers_sent() ) {
+		header("HTTP/1.0 500 EZEchoing");
+		header("Content-Type: text/plain");
+	}
+	foreach( func_get_args() as $v ) {
+		echo ezformat($v), "\n";
+	}
+	foreach( debug_backtrace() as $frame ) {
+		if( !isset($frame['file']) and !isset($frame['line']) ) continue;
+		echo "------- ezecho at ", coalesce($frame['file']), ":", coalesce($frame['line']), "\n";
+		return;
+	}
+}
+
+function ezdie() {
+	if( !headers_sent() ) {
+		header("HTTP/1.0 500 EZDied");
+		header("Content-Type: text/plain");
+	}
+	foreach( func_get_args() as $v ) {
+		echo ezformat($v), "\n";
+	}
+	echo "------- stack trace -------\n";
+	foreach( debug_backtrace() as $frame ) {
+		if( !isset($frame['file']) and !isset($frame['line']) ) continue;
+		echo "  from ", coalesce($frame['file']), ":", coalesce($frame['line']), "\n";
+	}
+	die();
+}
+
 function eit_get_request_content() {
 	static $read;
 	static $value;

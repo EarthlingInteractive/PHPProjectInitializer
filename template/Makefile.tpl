@@ -30,3 +30,6 @@ schema/schema.php: schema/schema.txt util/SchemaSchemaDemo.jar
 
 rebuild-database: ${generated_files}
 	cat build/db/upgrades/*.sql | util/{#databaseName}-psql
+
+run-service-tests:
+	${MAKE} -C service-tests

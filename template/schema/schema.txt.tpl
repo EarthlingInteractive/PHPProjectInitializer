@@ -1,6 +1,9 @@
 import everything from 'http://ns.nuke24.net/Schema/'
 import everything from 'http://ns.nuke24.net/Schema/DataTypeTranslation/'
 import everything from 'http://ns.nuke24.net/Schema/Application/'
+import 'http://ns.nuke24.net/Schema/RDB/Sequence'
+import 'http://ns.nuke24.net/Schema/RDB/initialValue'
+import 'http://ns.nuke24.net/Schema/RDB/defaultValueSequence'
 import 'http://ns.nuke24.net/Schema/RDB/isAutoIncremented'
 import 'http://ns.nuke24.net/Schema/RDB/isSelfKeyed'
 import 'http://www.w3.org/2000/01/rdf-schema#isSubclassOf' as 'extends'
@@ -24,18 +27,21 @@ class 'hash' : extends(string) : regex @ "[A-Fa-f0-9]{40}" : comment @ "Hex-enco
 class 'e-mail address' : extends(string)
 class 'URI' : extends(string)
 
+sequence 'new entity ID' : initial value @ 1001
+
 field modifier 'AIPK' = normal ID : is auto-incremented : key(primary)
+field modifier 'EIPK' = entity ID : default value sequence @ new entity ID : key(primary)
 field modifier 'SRC' = has a database table : has a REST service
 
 class 'user' : has a database table {
-	ID : entity ID : key(primary)
+	ID : EIPK
 	username : string
-	passhash : hash
-	e-mail address : e-mail address
+	passhash : hash : nullable
+	e-mail address : e-mail address : nullable
 }
 
 class 'organization' : SRC {
-	ID : entity ID : key(primary)
+	ID : EIPK
 	name : string
 }
 

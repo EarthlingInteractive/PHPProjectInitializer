@@ -11,6 +11,7 @@ class EarthIT_PHP_ProjectSetupper {
 	public $databaseHost;
 	public $databaseUser;
 	public $databasePassword;
+	public $deploymentUrlPrefix;
 	
 	public function __construct( $tplDir, $projDir, $projName, $projNamespace ) {
 		$this->templateDir = $tplDir;
@@ -36,6 +37,7 @@ class EarthIT_PHP_ProjectSetupper {
 			
 			$this->projectNamespace = str_replace(' ','',$ucName);
 		}
+		$this->deploymentUrlPrefix = 'http://'.preg_replace('/[^a-z0-9]/','',strtolower($this->projectName)).'.localhost/';
 		$this->databaseName = preg_replace('/[^a-z0-9]/','',strtolower($this->projectName));
 		$this->databaseHost = 'localhost';
 		$this->databaseUser = $this->databaseName;
@@ -78,6 +80,7 @@ class EarthIT_PHP_ProjectSetupper {
 			'{#databaseHost}' => $this->databaseHost,
 			'{#databaseUser}' => $this->databaseUser,
 			'{#databasePassword}' => $this->databasePassword,
+			'{#deploymentUrlPrefix}' => $this->deploymentUrlPrefix
 		));
 		
 		$destDir = dirname($dest);
@@ -106,6 +109,7 @@ class EarthIT_PHP_ProjectSetupper {
 		$this->templatify( $t.'/lib',    $p.'/'.$l );
 		$this->templatify( $t.'/schema', $p.'/schema' );
 		$this->templatify( $t.'/www',    $p.'/www' );
+		$this->templatify( $t.'/service-tests', $p.'/service-tests' );
 		$this->templatify( $t.'/.gitignore.tpl', $p.'/.gitignore' );
 		$this->templatify( $t.'/README.md.tpl', $p.'/README.md' );
 		$this->templatify( $t.'/Makefile.tpl', $p.'/Makefile' );
@@ -117,7 +121,7 @@ class EarthIT_PHP_ProjectSetupper {
 		$this->templatify( $t.'/init-www-error-handling.php.tpl', $p.'/init-www-error-handling.php' );
 		$this->templatify( $t.'/init-environment.php.tpl', $p.'/init-environment.php' );
 		if( $this->templatify( $t.'/composer.json.tpl', $p.'/composer.json' ) ) {
-			system('cd '.escapeshellarg($p).' && composer install');
+			system('cd '.escapeshellarg($p).' && composer install && make');
 		}
 		$this->templatify( $t.'/WELCOME.tpl', '-' );
 	}
@@ -197,6 +201,7 @@ if( $interactive ) {
 	$setupper->databaseUser = prompt( "Database user", $setupper->databaseUser );
 	$setupper->databaseHost = prompt( "Database host", $setupper->databaseHost );
 	$setupper->databasePassword = prompt( "Database password", $setupper->databasePassword );
+	$setupper->deploymentUrlPrefix = prompt( "Deployment URL prefix", $setupper->deploymentUrlPrefix );
 } else {
 	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName, $projectNamespace );
 	if( $projectNamespace ) {

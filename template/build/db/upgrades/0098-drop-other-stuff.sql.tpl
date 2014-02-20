@@ -1,1 +1,3 @@
 DROP SEQUENCE "entityid";
+DROP SEQUENCE IF EXISTS "entityid";
+DROP SEQUENCE IF EXISTS "newentityid";

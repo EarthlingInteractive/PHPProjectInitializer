@@ -6,7 +6,7 @@
 		"earthit/php-common": "~0.0.4",
 		"earthit/dbc": "~0.0.2",
 		"earthit/schema": "~0.0.2",
-		"earthit/cmip-rest": "~0.0.2",
+		"earthit/cmip-rest": "~0.0.3",
 		"doctrine/dbal": "~2.4.0"
 	},
 	"autoload": {
