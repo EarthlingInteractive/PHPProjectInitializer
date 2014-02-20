@@ -148,6 +148,9 @@ function prompt( $name, $defaultValue='' ) {
 	return $input;
 }
 
+// TODO: Refactor ProjectSetupper constructor to take a ProjectSettings
+// and allow settings to be given on the command-line
+
 $projectName = null;
 $phpNamespace = null;
 $interactive = false;
