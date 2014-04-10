@@ -37,6 +37,10 @@ class {#phpNamespace}_Dispatcher extends EarthIT_Component
 		throw new Exception("No RESTer!");
 	}
 	
+	/**
+	 * Handle the request, returning a response if path seems to name some REST resource.
+	 * Otherwise returns null.
+	 */
 	public function handleRestRequest( $path ) {
 		if( $crReq = EarthIT_CMIPREST_CMIPRESTRequest::parse( $_SERVER['REQUEST_METHOD'], $path, $_REQUEST, self::getRequestContentObject() ) ) {
 			$crReq->userId = $this->getCurrentUserId();
@@ -44,7 +48,7 @@ class {#phpNamespace}_Dispatcher extends EarthIT_Component
 			try {
 				$resourceClass = $this->registry->getSchema()->getResourceClass( EarthIT_Schema_WordUtil::depluralize($collectionName) );
 			} catch( EarthIT_Schema_NoSuchResourceClass $un ) {
-				return EarthIT_CMIPREST_RESTer::errorResponse( 404, $un->getMessage() );
+				return null;
 			} 
 			return $this->getRester($resourceClass)->handle($crReq);
 		} else {
