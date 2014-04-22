@@ -109,7 +109,7 @@ class EarthIT_PHP_ProjectSetupper {
 	public function run() {
 		$t = $this->templateDir;
 		$p = $this->projectDir;
-		$n = $this->phpNamespace;
+		$n = $this->projectSettings->phpNamespace;
 		$l = $this->getProjectLibDir();
 		$dbName = $this->projectSettings->databaseName;
 		$this->templatify( $t.'/build',  $p.'/build' );
