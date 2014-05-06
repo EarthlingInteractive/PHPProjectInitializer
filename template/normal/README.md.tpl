@@ -14,3 +14,20 @@ bothered to write any project-specific documentation, yet.
 - ```www/``` - Serves as the 'document root' for your project.
   Contains files to be served directly and a ```.htaccess``` and ```bootstrap.php```
   to handle paths that don't correspond to existing files.
+
+## Database
+### Create the database
+
+Set up a new postgres database by logging in as root
+(```sudo -u postgres psql``` often does the trick)
+and running:
+
+  CREATE DATABASE {#databaseName};
+  CREATE USER {#databaseUser} WITH PASSWORD '{#databasePassword}';
+  GRANT ALL PRIVILEGES ON DATABASE {#databaseName} TO {#databaseUser};
+
+### Initialize the database
+
+At the command prompt from within your project directory, type:
+
+  make rebuild-database

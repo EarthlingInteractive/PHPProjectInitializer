@@ -13,5 +13,7 @@ Then at the command prompt from within your project directory, type:
 
 [34m  make rebuild-database[0m
 
+This information is also in README.md.
+
 Happy hacking!
 [36m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[39m
