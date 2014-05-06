@@ -1,6 +1,8 @@
 generated_files = \
 	build/db/upgrades/0110-create-tables.sql \
 	build/db/upgrades/0097-drop-tables.sql \
+	util/SchemaSchemaDemo.jar \
+	util/{#databaseName}-psql \
 	schema/schema.php
 
 run_schema_processor = \
@@ -22,6 +24,10 @@ clean:
 	rebuild-database \
 	run-service-tests \
 	clean
+
+util/{#databaseName}-psql: config/dbc.json
+	util/generate-psql-script >$@
+	chmod +x $@
 
 util/SchemaSchemaDemo.jar: util/SchemaSchemaDemo.jar.urn
 	rm -f $@

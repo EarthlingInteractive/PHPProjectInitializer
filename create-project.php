@@ -103,6 +103,8 @@ class EarthIT_PHP_ProjectSetupper {
 			throw new Exception("Failed to write file: $dest");
 		}
 		
+		chmod($dest, fileperms($source));
+		
 		return true;
 	}
 	
@@ -119,11 +121,6 @@ class EarthIT_PHP_ProjectSetupper {
 		// 'special' templates are special because their corresponding
 		// output file is determined on a case-by-case basis.
 		$this->templatify( $t.'/special/lib',    $p.'/'.$l );
-		if( $dbName ) {
-			$pDbScript = $p.'/util/'.$dbName.'-psql';
-			$this->templatify( $t.'/special/psql.tpl', $pDbScript );
-			chmod( $pDbScript, 0700 );
-		}
 		if( $this->templatify( $t.'/special/composer.json.tpl', $p.'/composer.json' ) ) {
 			system('cd '.escapeshellarg($p).' && composer install && make');
 		}
