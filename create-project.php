@@ -112,26 +112,22 @@ class EarthIT_PHP_ProjectSetupper {
 		$n = $this->projectSettings->phpNamespace;
 		$l = $this->getProjectLibDir();
 		$dbName = $this->projectSettings->databaseName;
-		$this->templatify( $t.'/build',  $p.'/build' );
-		$this->templatify( $t.'/config', $p.'/config' );
-		$this->templatify( $t.'/lib',    $p.'/'.$l );
-		$this->templatify( $t.'/schema', $p.'/schema' );
-		$this->templatify( $t.'/www',    $p.'/www' );
-		$this->templatify( $t.'/service-tests', $p.'/service-tests' );
-		$this->templatify( $t.'/.gitignore.tpl', $p.'/.gitignore' );
-		$this->templatify( $t.'/README.md.tpl', $p.'/README.md' );
-		$this->templatify( $t.'/Makefile.tpl', $p.'/Makefile' );
+		
+		// All template/normal/X.tpl correspond exactly to project/<X>
+		$this->templatify( $t.'/normal',  $p );
+		
+		// 'special' templates are special because their corresponding
+		// output file is determined on a case-by-case basis.
+		$this->templatify( $t.'/special/lib',    $p.'/'.$l );
 		if( $dbName ) {
 			$pDbScript = $p.'/util/'.$dbName.'-psql';
-			$this->templatify( $t.'/util/psql.tpl', $pDbScript );
+			$this->templatify( $t.'/special/psql.tpl', $pDbScript );
 			chmod( $pDbScript, 0700 );
 		}
-		$this->templatify( $t.'/init-www-error-handling.php.tpl', $p.'/init-www-error-handling.php' );
-		$this->templatify( $t.'/init-environment.php.tpl', $p.'/init-environment.php' );
-		if( $this->templatify( $t.'/composer.json.tpl', $p.'/composer.json' ) ) {
+		if( $this->templatify( $t.'/special/composer.json.tpl', $p.'/composer.json' ) ) {
 			system('cd '.escapeshellarg($p).' && composer install && make');
 		}
-		$this->templatify( $t.'/WELCOME.tpl', '-' );
+		$this->templatify( $t.'/special/WELCOME.tpl', '-' );
 	}
 }
 
