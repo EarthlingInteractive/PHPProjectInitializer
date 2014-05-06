@@ -101,9 +101,9 @@ class EarthIT_PHP_ProjectSetupper {
 			echo $c;
 		} else if( file_put_contents( $dest, $c ) === false ) {
 			throw new Exception("Failed to write file: $dest");
+		} else {
+			chmod($dest, fileperms($source));
 		}
-		
-		chmod($dest, fileperms($source));
 		
 		return true;
 	}
