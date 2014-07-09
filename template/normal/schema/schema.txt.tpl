@@ -26,6 +26,8 @@ class 'text' : extends(string) : SQL type @ "TEXT"
 class 'hash' : extends(string) : regex @ "[A-Fa-f0-9]{40}" : comment @ "Hex-encoded SHA-1 of something (40 bytes)"
 class 'e-mail address' : extends(string)
 class 'URI' : extends(string)
+class 'time' : extends(string) : SQL type @ "TIMESTAMP"
+class 'date' : extends(string) : SQL type @ "DATE"
 
 sequence 'new entity ID' : initial value @ 1001
 
