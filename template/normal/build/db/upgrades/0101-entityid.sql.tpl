@@ -1,1 +1,1 @@
-CREATE SEQUENCE "newentityid" START 1001;
+CREATE SEQUENCE {dbObjectPrefix}"newentityid" START 1001;

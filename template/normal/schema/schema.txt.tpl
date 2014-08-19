@@ -33,7 +33,8 @@ sequence 'new entity ID' : initial value @ 1001
 
 field modifier 'AIPK' = normal ID : is auto-incremented : key(primary)
 field modifier 'EIPK' = entity ID : default value sequence @ new entity ID : key(primary)
-field modifier 'SRC' = has a database table : has a REST service # 'standard rest service'
+# SRC = 'standard rest service'
+field modifier 'SRC' = has a database table : has a REST service
 
 class 'user' : SRC : members are public {
 	ID : EIPK
