@@ -60,8 +60,6 @@ class EarthIT_PHP_ProjectSetupper {
 	}
 	
 	protected function templatify( $source, $dest ) {
-		if( file_exists($dest) && !$this->reinitializing ) return false;
-		
 		if( is_dir($source) ) {
 			$dh = opendir($source);
 			while( ($fn = readdir($dh)) !== false ) {
@@ -77,7 +75,7 @@ class EarthIT_PHP_ProjectSetupper {
 			}
 			closedir($dh);
 			return;
-		}
+		} else if( file_exists($dest) && !$this->reinitializing ) return false;
 		
 		$c = file_get_contents( $source );
 		if( $c === false ) {
