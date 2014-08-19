@@ -59,7 +59,7 @@ class EarthIT_PHP_ProjectSetupper {
 		return 'lib/'.str_replace(array('_','\\'),'/',$this->projectSettings->phpNamespace);
 	}
 	
-	protected function templatify( $source, $dest ) {
+	protected function templatify( $source, $dest, $doReplacements=true ) {
 		if( is_dir($source) ) {
 			$dh = opendir($source);
 			while( ($fn = readdir($dh)) !== false ) {
@@ -70,7 +70,7 @@ class EarthIT_PHP_ProjectSetupper {
 				} else if( is_dir($subSource) ) {
 					$this->templatify( $subSource, "{$dest}/{$fn}" );
 				} else {
-					throw new Exception("Unhandled template file: $subSource");
+					$this->templatify( $subSource, "{$dest}/{$fn}", false );
 				}
 			}
 			closedir($dh);
@@ -81,13 +81,16 @@ class EarthIT_PHP_ProjectSetupper {
 		if( $c === false ) {
 			throw new Exception("Failed to read template from file: $source");
 		}
-		$replacements = array();
-		foreach( $this->projectSettings as $k=>$v ) {
-			$replacements['{#'.$k.'}'] = $v;
+		
+		if( $doReplacements ) {
+			$replacements = array();
+			foreach( $this->projectSettings as $k=>$v ) {
+				$replacements['{#'.$k.'}'] = $v;
+			}
+			$replacements['{#projectLibDir}'] = $this->getProjectLibDir();
+			
+			$c = strtr( $c, $replacements );
 		}
-		$replacements['{#projectLibDir}'] = $this->getProjectLibDir();
-
-		$c = strtr( $c, $replacements );
 		
 		$destDir = dirname($dest);
 		if( !is_dir($destDir) ) {
