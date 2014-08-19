@@ -12,6 +12,11 @@ run_schema_processor = \
 	-o-schema-php schema/schema.php -php-schema-class-namespace EarthIT_Schema \
 	schema/schema.txt
 
+tjfetcher_opts = \
+	-repo pvps1.nuke24.net \
+	-repo robert.nuke24.net:8080 \
+	-repo fs.marvin.nuke24.net
+
 all: ${generated_files}
 
 clean:
@@ -29,10 +34,8 @@ util/{#databaseName}-psql: config/dbc.json
 	util/generate-psql-script >$@
 	chmod +x $@
 
-util/SchemaSchemaDemo.jar: util/SchemaSchemaDemo.jar.urn
-	rm -f $@
-	# TODO: Use some other server(s)
-	curl -o $@ 'http://pvps1.nuke24.net/uri-res/N2R?'`cat "$<"`
+%: %.urn
+	java -jar util/TJFetcher.jar ${tjfetcher_opts} -o "$@" `cat "$<"`
 
 build/db/upgrades/0110-create-tables.sql: schema/schema.txt util/SchemaSchemaDemo.jar
 	${run_schema_processor}
