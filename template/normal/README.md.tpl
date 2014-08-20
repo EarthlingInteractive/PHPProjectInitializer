@@ -26,6 +26,8 @@ and running:
   CREATE USER {#databaseUser} WITH PASSWORD '{#databasePassword}';
   GRANT ALL PRIVILEGES ON DATABASE {#databaseName} TO {#databaseUser};
 
+```make create-database``` will attempt to do this for you.
+
 ### Initialize the database
 
 At the command prompt from within your project directory, type:

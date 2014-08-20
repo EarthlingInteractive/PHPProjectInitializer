@@ -15,7 +15,8 @@ class EarthIT_PHP_ProjectSetupper_ProjectSettings {
 class EarthIT_PHP_ProjectSetupper {
 	public $templateDir;
 	public $projectDir;
-	public $reinitializing;
+	public $shouldOverwriteFiles;
+	public $makeTargetsToBuild;
 		
 	public function __construct( $tplDir, $projDir, $projName, $projNamespace ) {
 		$this->templateDir = $tplDir;
@@ -75,7 +76,7 @@ class EarthIT_PHP_ProjectSetupper {
 			}
 			closedir($dh);
 			return;
-		} else if( file_exists($dest) && !$this->reinitializing ) return false;
+		} else if( file_exists($dest) && !$this->shouldOverwriteFiles ) return false;
 		
 		$c = file_get_contents( $source );
 		if( $c === false ) {
@@ -125,6 +126,9 @@ class EarthIT_PHP_ProjectSetupper {
 		if( $this->templatify( $t.'/special/composer.json.tpl', $p.'/composer.json' ) ) {
 			system('cd '.escapeshellarg($p).' && composer install && make');
 		}
+		if( $this->makeTargetsToBuild ) {
+			system("make -C ".escapeshellarg($this->projectDir)." ".implode(" ",$this->makeTargetsToBuild));
+		}
 		$this->templatify( $t.'/special/WELCOME.tpl', '-' );
 	}
 }
@@ -154,8 +158,9 @@ $projectName = null;
 $phpNamespace = null;
 $interactive = false;
 $showHelp = false;
-$reinitialize = false;
-$projectDir = '.';
+$overwrite = false;
+$projectDir = null;
+$makeTargetsToBuild = array();
 for( $i=1; $i<$argc; ++$i ) {
 	$arg = $argv[$i];
 	switch( $arg ) {
@@ -168,8 +173,14 @@ for( $i=1; $i<$argc; ++$i ) {
 	case '-i':
 		$interactive = true;
 		break;
-	case '--reinitialize':
-		$reinitialize = true;
+	case '--drop-database':
+		$makeTargetsToBuild[] = 'drop-database';
+		break;
+	case '--create-database':
+		$makeTargetsToBuild[] = 'create-database';
+		break;
+	case '--overwrite':
+		$overwrite = true;
 		break;
 	default:
 		if( $arg[0] != '-' ) {
@@ -197,6 +208,9 @@ if( $showHelp ) {
 if( $projectName === null and !$interactive ) {
 	dieForUsageError("Project name must be specified unless in interactive mode");
 }
+if( $projectDir === null and !$interactive ) {
+	dieForUsageError("Project directory must be specified unless in interactive mode");
+}
 
 $templateDir = dirname(__FILE__)."/template";
 
@@ -204,7 +218,8 @@ if( $interactive ) {
 	$projectName = prompt( "Project name", $projectName );
 	$projectDir = prompt( "Project directory", $projectDir );
 	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName, $phpNamespace );
-	$setupper->reinitializing = $reinitialize;
+	$setupper->shouldOverwriteFiles = $overwrite;
+	$setupper->makeTargetsToBuild = $makeTargetsToBuild;
 	$setupper->initDefaults();
 	$setupper->projectSettings->phpNamespace = prompt( "PHP class namespace", $setupper->projectSettings->phpNamespace );
 	$setupper->projectSettings->databaseName = prompt( "Database name", $setupper->projectSettings->databaseName );
@@ -214,7 +229,8 @@ if( $interactive ) {
 	$setupper->projectSettings->deploymentUrlPrefix = prompt( "Deployment URL prefix", $setupper->projectSettings->deploymentUrlPrefix );
 } else {
 	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName, $phpNamespace );
-	$setupper->reinitializing = $reinitialize;
+	$setupper->shouldOverwriteFiles = $overwrite;
+	$setupper->makeTargetsToBuild = $makeTargetsToBuild;
 	if( $phpNamespace ) {
 		$setupper->projectSettings->phpNamespace = $phpNamespace;
 	}
