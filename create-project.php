@@ -68,7 +68,9 @@ class EarthIT_PHP_ProjectSetupper {
 			while( ($fn = readdir($dh)) !== false ) {
 				if( $fn == '.' or $fn == '..' ) continue;
 				$subSource = "{$source}/{$fn}";
-				if( preg_match('/(.*)\.tpl$/', $fn, $bif) ) {
+				if( preg_match('/~$/', $fn, $bif) ) {
+					// Backup file; ignore that carp.
+				} else if( preg_match('/(.*)\.tpl$/', $fn, $bif) ) {
 					$this->templatify( $subSource, "{$dest}/{$bif[1]}" );
 				} else if( is_dir($subSource) ) {
 					$this->templatify( $subSource, "{$dest}/{$fn}" );
