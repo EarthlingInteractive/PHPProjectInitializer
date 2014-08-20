@@ -1,3 +1,2 @@
-DROP SEQUENCE {dbObjectPrefix}"entityid";
-DROP SEQUENCE IF EXISTS {dbObjectPrefix}"entityid";
-DROP SEQUENCE IF EXISTS {dbObjectPrefix}"newentityid";
+DROP SEQUENCE IF EXISTS {#databaseObjectPrefix}"entityid";
+DROP SEQUENCE IF EXISTS {#databaseObjectPrefix}"newentityid";

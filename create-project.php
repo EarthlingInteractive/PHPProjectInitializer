@@ -9,6 +9,8 @@ class EarthIT_PHP_ProjectSetupper_ProjectSettings {
 	public $databaseHost;
 	public $databaseUser;
 	public $databasePassword;
+	public $databaseObjectPrefix = '';
+	
 	public $deploymentUrlPrefix;
 }
 
