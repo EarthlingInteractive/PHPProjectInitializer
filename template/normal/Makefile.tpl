@@ -46,7 +46,7 @@ build/db/upgrades/0097-drop-tables.sql: schema/schema.txt util/SchemaSchemaDemo.
 schema/schema.php: schema/schema.txt util/SchemaSchemaDemo.jar
 	${run_schema_processor}
 
-%-database: build/db/%-database.sql
+create-database drop-database: %: build/db/%.sql
 	sudo su postgres -c "cat '$<' | psql"
 
 rebuild-database: ${generated_files}
