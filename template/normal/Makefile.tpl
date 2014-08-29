@@ -1,8 +1,9 @@
 generated_files = \
 	build/db/upgrades/0110-create-tables.sql \
 	build/db/upgrades/0097-drop-tables.sql \
-	util/SchemaSchemaDemo.jar \
 	util/{#databaseName}-psql \
+	util/{#databaseName}-pg_dump \
+	util/SchemaSchemaDemo.jar \
 	schema/schema.php
 
 run_schema_processor = \
@@ -31,8 +32,11 @@ clean:
 	clean
 
 util/{#databaseName}-psql: config/dbc.json
-	util/generate-psql-script >$@
-	chmod +x $@
+	vendor/bin/generate-psql-script -psql-exe psql "$<" >"$@"
+	chmod +x "$@"
+util/{#databaseName}-pg_dump: config/dbc.json
+	vendor/bin/generate-psql-script -psql-exe pg_dump "$<" >"$@"
+	chmod +x "$@"
 
 %: %.urn
 	java -jar util/TJFetcher.jar ${tjfetcher_opts} -o "$@" `cat "$<"`

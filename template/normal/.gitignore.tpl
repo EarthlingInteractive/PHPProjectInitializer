@@ -1,5 +1,6 @@
 composer.lock
 config/dbc.json
-util/
+util/{#databaseName}-pg_dump \
+util/{#databaseName}-psql \
 util/SchemaSchemaDemo.jar
 vendor

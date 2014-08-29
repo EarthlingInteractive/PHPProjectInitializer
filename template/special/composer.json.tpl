@@ -7,6 +7,7 @@
 		"earthit/dbc": "~0.0.3",
 		"earthit/schema": "~0.0.5",
 		"earthit/cmip-rest": "~0.0.16",
+		"earthit/php-project-utils": "~0.0.1",
 		"doctrine/dbal": "~2.4.0"
 	},
 	"autoload": {
