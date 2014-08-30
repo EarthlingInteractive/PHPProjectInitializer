@@ -29,6 +29,16 @@ class EarthIT_PHP_ProjectSetupper {
 		$ps->phpNamespace = $projNamespace;
 	}
 	
+	public function loadSettings( $s ) {
+		foreach( $s as $k => $v ) {
+			if( property_exists($this->projectSettings, $k) ) {
+				$this->projectSettings->$k = $v;
+			} else {
+				throw new Exception("Unrecognized project setting key '$k'");
+			}
+		}
+	}
+	
 	public function initDefaults() {
 		if( $this->templateDir === null ) {
 			throw new Exception("No default for template directory.");
@@ -155,6 +165,12 @@ function prompt( $name, $defaultValue='' ) {
 	return $input;
 }
 
+function dumpProjectSettingsKeys( $stream ) {
+	foreach( get_class_vars('EarthIT_PHP_ProjectSetupper_ProjectSettings') as $k=>$v ) {
+		fwrite( $stream, "  $k\n" );
+	}
+}
+
 // TODO: Refactor ProjectSetupper constructor to take a ProjectSettings
 // and allow settings to be given on the command-line
 
@@ -165,6 +181,7 @@ $showHelp = false;
 $overwrite = false;
 $projectDir = null;
 $makeTargetsToBuild = array();
+$settings = array();
 for( $i=1; $i<$argc; ++$i ) {
 	$arg = $argv[$i];
 	switch( $arg ) {
@@ -188,7 +205,10 @@ for( $i=1; $i<$argc; ++$i ) {
 		break;
 	default:
 		if( $arg[0] != '-' ) {
-			if( $projectName === null ) {
+			if( preg_match('/^(.+?)=(.*)$/',$arg,$bif) ) {
+				$settings[$bif[1]] = $bif[2];
+				break;
+			} else if( $projectName === null ) {
 				$projectName = $arg;
 				break;
 			} else if( $phpNamespace === null ) {
@@ -218,6 +238,14 @@ if( $projectDir === null and !$interactive ) {
 
 $templateDir = dirname(__FILE__)."/template";
 
+foreach( $settings as $k=>$v ) {
+	if( !property_exists('EarthIT_PHP_ProjectSetupper_ProjectSettings',$k) ) {
+		fwrite( STDERR, "Error: invalid settings key '$k'\nValid keys are:\n" );
+		dumpProjectSettingsKeys( STDERR );
+		exit(1);
+	}
+}
+
 if( $interactive ) {
 	$projectName = prompt( "Project name", $projectName );
 	$projectDir = prompt( "Project directory", $projectDir );
@@ -225,6 +253,7 @@ if( $interactive ) {
 	$setupper->shouldOverwriteFiles = $overwrite;
 	$setupper->makeTargetsToBuild = $makeTargetsToBuild;
 	$setupper->initDefaults();
+	$setupper->loadSettings($settings);
 	$setupper->projectSettings->phpNamespace = prompt( "PHP class namespace", $setupper->projectSettings->phpNamespace );
 	$setupper->projectSettings->databaseName = prompt( "Database name", $setupper->projectSettings->databaseName );
 	$setupper->projectSettings->databaseUser = prompt( "Database user", $setupper->projectSettings->databaseUser );
@@ -239,5 +268,6 @@ if( $interactive ) {
 		$setupper->projectSettings->phpNamespace = $phpNamespace;
 	}
 	$setupper->initDefaults();
+	$setupper->loadSettings($settings);
 }
 $setupper->run();
