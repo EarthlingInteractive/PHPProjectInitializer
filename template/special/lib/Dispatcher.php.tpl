@@ -41,7 +41,7 @@ class {#phpNamespace}_Dispatcher extends EarthIT_Component
 	 * Handle the request, returning a response if path seems to name some REST resource.
 	 * Otherwise returns null.
 	 */
-	public function handleRestRequest( $path ) {
+	public function handleApiRequest( $path ) {
 		if( $crReq = EarthIT_CMIPREST_CMIPRESTRequest::parse( $_SERVER['REQUEST_METHOD'], $path, $_REQUEST, self::getRequestContentObject() ) ) {
 			$crReq->userId = $this->getCurrentUserId();
 			$collectionName = $crReq->getResourceCollectionName();
@@ -67,7 +67,7 @@ class {#phpNamespace}_Dispatcher extends EarthIT_Component
 			foreach( $schema->getResourceClasses() as $rc ) {
 				$collectionName = ucfirst(EarthIT_Schema_WordUtil::pluralize($rc->getName()));
 				$dashName = str_replace(' ','-',strtolower($collectionName));
-				$classLinks[] = "<li><a href=\"".htmlspecialchars($dashName)."\">".htmlspecialchars($collectionName)."</a></li>";
+				$classLinks[] = "<li><a href=\"api/".htmlspecialchars($dashName)."\">".htmlspecialchars($collectionName)."</a></li>";
 			}
 			
 			
@@ -89,7 +89,7 @@ class {#phpNamespace}_Dispatcher extends EarthIT_Component
 			trigger_error( "An error occurred for demonstrative porpoises.", E_USER_ERROR );
 		} else if( $path == '/exception' ) {
 			throw new Exception( "You asked for an exception and this is it." );
-		} else if( $response = $this->handleRestRequest($path) ) {
+		} else if( preg_match('#^/api(/.*)#',$path,$bif) and $response = $this->handleApiRequest($bif[1]) ) {
 			return $response;
 		} else {
 			return Nife_Util::httpResponse( 404, "I don't know about $path!" );
