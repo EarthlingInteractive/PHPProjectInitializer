@@ -49,7 +49,7 @@ class {#phpNamespace}_Dispatcher extends EarthIT_Component
 				$resourceClass = $this->registry->getSchema()->getResourceClass( EarthIT_Schema_WordUtil::depluralize($collectionName) );
 			} catch( EarthIT_Schema_NoSuchResourceClass $un ) {
 				return null;
-			} 
+			}
 			return $this->getRester($resourceClass)->handle($crReq);
 		} else {
 			return null;
