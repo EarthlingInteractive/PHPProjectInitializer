@@ -42,7 +42,8 @@ class {#phpNamespace}_Dispatcher extends EarthIT_Component
 	 * Otherwise returns null.
 	 */
 	public function handleApiRequest( $path ) {
-		if( $crReq = EarthIT_CMIPREST_CMIPRESTRequest::parse( $_SERVER['REQUEST_METHOD'], $path, $_REQUEST, self::getRequestContentObject() ) ) {
+		$method = isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) ? $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] : $_SERVER['REQUEST_METHOD'];
+		if( $crReq = EarthIT_CMIPREST_CMIPRESTRequest::parse( $method, $path, $_REQUEST, self::getRequestContentObject() ) ) {
 			$crReq->userId = $this->getCurrentUserId();
 			$collectionName = $crReq->getResourceCollectionName();
 			try {
