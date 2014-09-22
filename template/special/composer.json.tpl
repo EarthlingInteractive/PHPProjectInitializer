@@ -8,6 +8,7 @@
 		"earthit/schema": "~0.1.0",
 		"earthit/cmip-rest": "~0.0.72",
 		"earthit/php-project-utils": "~0.0.4",
+		"togos/tpfetcher": "~0.0.3",
 		"doctrine/dbal": "~2.4.0"
 	},
 	"autoload": {
