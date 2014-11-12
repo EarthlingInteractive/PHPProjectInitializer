@@ -27,7 +27,7 @@ function defaultSettings( array $settings ) {
 	_defalt($settings, 'databaseHost', 'localhost');
 	_defalt($settings, 'databaseUser', $settings['databaseName']);
 	_defalt($settings, 'databasePassword', $settings['databaseName']);
-	_defalt($settings, 'databaseObjectPrefix', $settings['databaseName'].'schema.');
+	_defalt($settings, 'databaseObjectPrefix', '');
 	return $settings;
 }
 
@@ -116,6 +116,12 @@ for( $i=1; $i<$argc; ++$i ) {
 	case '--create-database':
 		$makeTargetsToBuild[] = 'create-database';
 		break;
+	case '--run-tests':
+		$makeTargetsToBuild[] = 'run-tests';
+		break;
+	case '--make':
+		$makeTargetsToBuild[] = $argv[++$i];
+		break;
 	case '--overwrite':
 		$overwrite = true;
 		break;
@@ -136,13 +142,21 @@ for( $i=1; $i<$argc; ++$i ) {
 	}
 }
 
+$usageText = 
+	"Usage: {$argv[0]} [<project name>] [<namespace>] [-i] [-?]\n".
+	"General options:\n".
+	"  -i       ; interactive\n".
+	"  -t <dir> ; specify template directory\n".
+	"  -o <dir> ; specify output directory (defaults to '.')\n".
+	"  -?       ; show help\n".
+	"Build options:\n".
+	"  --make <target>   ; build a Make target on the new project\n".
+	"  --drop-database   ; Short for --make drop-database\n".
+	"  --create-database ; Short for --make create-database\n".
+	"  --run-tests       ; Short for --make run-tests\n";
+
 if( $showHelp ) {
-	fwrite( STDOUT, "Usage: {$argv[0]} [<project name>] [<namespace>] [-i] [-?]\n" );
-	fwrite( STDOUT, "Options:\n" );
-	fwrite( STDOUT, "  -i       ; interactive\n" );
-	fwrite( STDOUT, "  -t <dir> ; specify template directory\n" );
-	fwrite( STDOUT, "  -o <dir> ; specify output directory (defaults to '.')\n" );
-	fwrite( STDOUT, "  -?       ; show help\n" );
+	fwrite( STDOUT, $usageText );
 	exit(0);
 }
 
@@ -209,3 +223,6 @@ $outputProject = new EarthIT_PHPProjectRewriter_Project($outputProjectDir, $outp
 
 $rewriter = new EarthIT_PHPProjectRewriter();
 $rewriter->rewrite( $templateProject, $outputProject );
+if( $makeTargetsToBuild ) {
+	system("make -C ".escapeshellarg($outputProjectDir)." ".implode(' ',$makeTargetsToBuild));
+}
