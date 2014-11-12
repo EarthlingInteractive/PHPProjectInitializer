@@ -1,0 +1,796 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "3e15c5b665b1772760d6fac973437865",
+    "packages": [
+        {
+            "name": "doctrine/annotations",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/annotations.git",
+                "reference": "6a6bec0670bb6e71a263b08bc1b98ea242928633"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/6a6bec0670bb6e71a263b08bc1b98ea242928633",
+                "reference": "6a6bec0670bb6e71a263b08bc1b98ea242928633",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/lexer": "1.*",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "doctrine/cache": "1.*",
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\Annotations\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Docblock Annotations Parser",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "annotations",
+                "docblock",
+                "parser"
+            ],
+            "time": "2014-09-25 16:45:30"
+        },
+        {
+            "name": "doctrine/cache",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/cache.git",
+                "reference": "cf483685798a72c93bf4206e3dd6358ea07d64e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/cf483685798a72c93bf4206e3dd6358ea07d64e7",
+                "reference": "cf483685798a72c93bf4206e3dd6358ea07d64e7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "conflict": {
+                "doctrine/common": ">2.2,<2.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=3.7",
+                "satooshi/php-coveralls": "~0.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\Cache\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Caching library offering an object-oriented API for many cache backends",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "cache",
+                "caching"
+            ],
+            "time": "2014-09-17 14:24:04"
+        },
+        {
+            "name": "doctrine/collections",
+            "version": "v1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/collections.git",
+                "reference": "b99c5c46c87126201899afe88ec490a25eedd6a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/b99c5c46c87126201899afe88ec490a25eedd6a2",
+                "reference": "b99c5c46c87126201899afe88ec490a25eedd6a2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\Collections\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "https://github.com/schmittjoh",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
+            "description": "Collections Abstraction library",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "array",
+                "collections",
+                "iterator"
+            ],
+            "time": "2014-02-03 23:07:43"
+        },
+        {
+            "name": "doctrine/common",
+            "version": "v2.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/common.git",
+                "reference": "5db6ab40e4c531f14dad4ca96a394dfce5d4255b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/5db6ab40e4c531f14dad4ca96a394dfce5d4255b",
+                "reference": "5db6ab40e4c531f14dad4ca96a394dfce5d4255b",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "1.*",
+                "doctrine/cache": "1.*",
+                "doctrine/collections": "1.*",
+                "doctrine/inflector": "1.*",
+                "doctrine/lexer": "1.*",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "https://github.com/schmittjoh",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
+            "description": "Common Library for Doctrine projects",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "annotations",
+                "collections",
+                "eventmanager",
+                "persistence",
+                "spl"
+            ],
+            "time": "2014-05-21 19:28:51"
+        },
+        {
+            "name": "doctrine/dbal",
+            "version": "v2.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/dbal.git",
+                "reference": "0368bc031976126e5d36d37d2c56155092b6575b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/0368bc031976126e5d36d37d2c56155092b6575b",
+                "reference": "0368bc031976126e5d36d37d2c56155092b6575b",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "~2.4",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "symfony/console": "~2.0"
+            },
+            "suggest": {
+                "symfony/console": "For helpful console commands such as SQL execution and import of files."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\DBAL\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                }
+            ],
+            "description": "Database Abstraction Layer",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database",
+                "dbal",
+                "persistence",
+                "queryobject"
+            ],
+            "time": "2014-10-16 11:56:49"
+        },
+        {
+            "name": "doctrine/inflector",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/inflector.git",
+                "reference": "54b8333d2a5682afdc690060c1cf384ba9f47f08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/54b8333d2a5682afdc690060c1cf384ba9f47f08",
+                "reference": "54b8333d2a5682afdc690060c1cf384ba9f47f08",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\Inflector\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "https://github.com/schmittjoh",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
+            "description": "Common String Manipulations with regard to casing and singular/plural rules.",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "inflection",
+                "pluarlize",
+                "singuarlize",
+                "string"
+            ],
+            "time": "2013-01-10 21:49:15"
+        },
+        {
+            "name": "doctrine/lexer",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/lexer.git",
+                "reference": "2f708a85bb3aab5d99dab8be435abd73e0b18acb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/2f708a85bb3aab5d99dab8be435abd73e0b18acb",
+                "reference": "2f708a85bb3aab5d99dab8be435abd73e0b18acb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\Lexer\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "https://github.com/schmittjoh",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
+            "description": "Base library for a lexer that can be used in Top-Down, Recursive Descent Parsers.",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "lexer",
+                "parser"
+            ],
+            "time": "2013-01-12 18:59:04"
+        },
+        {
+            "name": "earthit/cmip-rest",
+            "version": "0.0.82",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EarthlingInteractive/PHPCMIPREST.git",
+                "reference": "d79cdcaa061db79ef6e4bcf740501da9a720275e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPCMIPREST/zipball/d79cdcaa061db79ef6e4bcf740501da9a720275e",
+                "reference": "d79cdcaa061db79ef6e4bcf740501da9a720275e",
+                "shasum": ""
+            },
+            "require": {
+                "earthit/dbc": "~0.0.5",
+                "earthit/php-common": "~0.0.10",
+                "earthit/schema": "~0.1.0",
+                "php": ">=5.2.0",
+                "ryprop/nife": "~0.0.1"
+            },
+            "require-dev": {
+                "doctrine/dbal": "~2.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "EarthIT_CMIPREST_": "lib/"
+                },
+                "classmap": [
+                    "test"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Collection-Modifiers-ID-Property REST framework",
+            "time": "2014-11-07 22:08:41"
+        },
+        {
+            "name": "earthit/dbc",
+            "version": "0.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EarthlingInteractive/PHPDBC.git",
+                "reference": "4b6ad576177e4f4ce7cd1a8f7a80a1be0c786ee7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPDBC/zipball/4b6ad576177e4f4ce7cd1a8f7a80a1be0c786ee7",
+                "reference": "4b6ad576177e4f4ce7cd1a8f7a80a1be0c786ee7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "EarthIT_DBC_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Database access utilities",
+            "time": "2014-09-05 19:52:28"
+        },
+        {
+            "name": "earthit/php-common",
+            "version": "0.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EarthlingInteractive/PHPCommon.git",
+                "reference": "13c39cbaab2ec5c6596b24cb2044a2880241d27d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPCommon/zipball/13c39cbaab2ec5c6596b24cb2044a2880241d27d",
+                "reference": "13c39cbaab2ec5c6596b24cb2044a2880241d27d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0",
+                "ryprop/nife": "~0.0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "EarthIT_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "EarthIT Common PHP Classes",
+            "time": "2014-11-07 17:14:28"
+        },
+        {
+            "name": "earthit/php-project-rewriter",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EarthlingInteractive/PHPProjectRewriter.git",
+                "reference": "5e63490049c06dd556bacd9e4320e175736c20fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPProjectRewriter/zipball/5e63490049c06dd556bacd9e4320e175736c20fd",
+                "reference": "5e63490049c06dd556bacd9e4320e175736c20fd",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "EarthIT_PHPProjectRewriter": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Creates a new project from an old one, rewriting identifiers as appropriate.",
+            "time": "2014-11-12 18:54:46"
+        },
+        {
+            "name": "earthit/php-project-utils",
+            "version": "0.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EarthlingInteractive/PHPProjectUtils.git",
+                "reference": "cd8fe0e75eb0cfad9fae877b1e9b43d1322e43a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPProjectUtils/zipball/cd8fe0e75eb0cfad9fae877b1e9b43d1322e43a0",
+                "reference": "cd8fe0e75eb0cfad9fae877b1e9b43d1322e43a0",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/generate-psql-script",
+                "bin/upgrade-database",
+                "bin/generate-create-database-sql",
+                "bin/generate-drop-database-sql"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "EarthIT_ProjectUtil_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Build utilities for PHP projects, in PHP.",
+            "time": "2014-10-03 18:31:08"
+        },
+        {
+            "name": "earthit/php-template-project",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EarthlingInteractive/PHPTemplateProject.git",
+                "reference": "76c170528dc55bb182273927d2c01b753c569fdf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPTemplateProject/zipball/76c170528dc55bb182273927d2c01b753c569fdf",
+                "reference": "76c170528dc55bb182273927d2c01b753c569fdf",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "~2.4.0",
+                "earthit/cmip-rest": "~0.0.72",
+                "earthit/dbc": "~0.0.6",
+                "earthit/php-common": "~0.0.8",
+                "earthit/php-project-utils": "~0.0.4",
+                "earthit/schema": "~0.1.0",
+                "php": ">=5.2.0",
+                "ryprop/nife": "~0.0.2",
+                "togos/tpfetcher": "~0.0.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7.37"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPTemplateProjectNS_": "test/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP Template Project",
+            "time": "2014-11-12 19:43:27"
+        },
+        {
+            "name": "earthit/schema",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EarthlingInteractive/PHPSchema.git",
+                "reference": "c604ea58f19edf81b461985e75a1c65196817918"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPSchema/zipball/c604ea58f19edf81b461985e75a1c65196817918",
+                "reference": "c604ea58f19edf81b461985e75a1c65196817918",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "EarthIT_Schema": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Schema definition classes",
+            "time": "2014-10-29 21:40:05"
+        },
+        {
+            "name": "ryprop/nife",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ryprop/nife.git",
+                "reference": "54f26d0523271aecd94ff4933a587181ae22b229"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ryprop/nife/zipball/54f26d0523271aecd94ff4933a587181ae22b229",
+                "reference": "54f26d0523271aecd94ff4933a587181ae22b229",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Nife_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Ryan Parker",
+                    "email": "ryan@nife-framework.org",
+                    "homepage": "http://www.nife-framework.org/"
+                }
+            ],
+            "description": "Modern, no-bullshit MVC framework for PHP",
+            "homepage": "http://www.nife-framework.org",
+            "keywords": [
+                "mvc",
+                "nife"
+            ],
+            "time": "2014-02-19 20:18:05"
+        },
+        {
+            "name": "togos/base32",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TOGoS/PHPBase32.git",
+                "reference": "e13532d9620a559e82331d765ebe126895be7381"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TOGoS/PHPBase32/zipball/e13532d9620a559e82331d765ebe126895be7381",
+                "reference": "e13532d9620a559e82331d765ebe126895be7381",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "TOGoS_Base32": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "RFC3548 base32 encoder/decoder",
+            "time": "2014-09-10 20:02:28"
+        },
+        {
+            "name": "togos/tpfetcher",
+            "version": "0.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TOGoS/TPFetcher.git",
+                "reference": "77af1345a5362b9143e475565d334e1358424ea8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TOGoS/TPFetcher/zipball/77af1345a5362b9143e475565d334e1358424ea8",
+                "reference": "77af1345a5362b9143e475565d334e1358424ea8",
+                "shasum": ""
+            },
+            "require": {
+                "togos/base32": "~1.0.0"
+            },
+            "bin": [
+                "bin/fetch"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Fetch blobs by hash-based URN.",
+            "time": "2014-09-22 16:31:58"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "earthit/php-template-project": 20,
+        "earthit/php-project-rewriter": 20
+    },
+    "prefer-stable": false,
+    "platform": [],
+    "platform-dev": []
+}
