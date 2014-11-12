@@ -223,6 +223,19 @@ $outputProject = new EarthIT_PHPProjectRewriter_Project($outputProjectDir, $outp
 
 $rewriter = new EarthIT_PHPProjectRewriter();
 $rewriter->rewrite( $templateProject, $outputProject );
+
+// Make default config files
+if( is_dir($outputProjectConfigDir = "{$outputProjectDir}/config") ) {
+	$dh = opendir($outputProjectConfigDir);
+	while( ($fn = readdir($dh)) !== false ) {
+		echo $fn,"\n";
+		if( preg_match('/^(.*?)\.example$/',$fn,$bif) and !file_exists("{$outputProjectConfigDir}/{$bif[1]}") ) {
+			copy("{$outputProjectConfigDir}/{$fn}", "{$outputProjectConfigDir}/{$bif[1]}");
+		}
+	}
+	closedir($dh);
+}
+
 if( $makeTargetsToBuild ) {
 	system("make -C ".escapeshellarg($outputProjectDir)." ".implode(' ',$makeTargetsToBuild));
 }
