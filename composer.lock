@@ -626,12 +626,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/EarthlingInteractive/PHPTemplateProject.git",
-                "reference": "76c170528dc55bb182273927d2c01b753c569fdf"
+                "reference": "f9a6623080247cc5f9b040254f555da05599439c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EarthlingInteractive/PHPTemplateProject/zipball/76c170528dc55bb182273927d2c01b753c569fdf",
-                "reference": "76c170528dc55bb182273927d2c01b753c569fdf",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPTemplateProject/zipball/f9a6623080247cc5f9b040254f555da05599439c",
+                "reference": "f9a6623080247cc5f9b040254f555da05599439c",
                 "shasum": ""
             },
             "require": {
@@ -659,7 +659,7 @@
                 "MIT"
             ],
             "description": "PHP Template Project",
-            "time": "2014-11-12 19:43:27"
+            "time": "2014-11-12 20:17:47"
         },
         {
             "name": "earthit/schema",
