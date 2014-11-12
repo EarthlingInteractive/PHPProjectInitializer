@@ -1,4 +1,0 @@
-# All deployment-specific configuration files should be listed, here.
-# If you want to check something in as an example, call it something.json.example.
-dbc.json
-ccouch-repos.lst

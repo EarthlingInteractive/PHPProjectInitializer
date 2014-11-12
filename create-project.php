@@ -1,153 +1,63 @@
 #!/usr/bin/env php
 <?php
 
-class EarthIT_PHP_ProjectSetupper_ProjectSettings {
-	public $projectName;
-	public $phpNamespace;
+require_once __DIR__.'/vendor/autoload.php';
+
+function _defalt( array &$a, $k, $defaultValue ) {
+	if( !isset($a[$k]) ) $a[$k] = $defaultValue;
+ }
+
+function defaultSettings( array $settings ) {
+	if( !isset($settings['projectName']) ) {
+		throw new Exception("Can't generate default project settings without projectName");
+	}
+	$littleProjectName = preg_replace('/[^a-z0-9]/','',strtolower($settings['projectName']));
 	
-	public $databaseName;
-	public $databaseHost;
-	public $databaseUser;
-	public $databasePassword;
-	public $databaseObjectPrefix = '';
+	if( !isset($settings['phpNamespace']) ) {
+		$fixName = strtr( $settings['projectName'], array('-'=>' ','/'=>'_','\\'=>'_') );
+		$fixName = preg_replace('/[^a-z0-9 _]/i','',$fixName);
+		$ucName = ucwords($fixName);
+		
+		$settings['phpNamespace'] = str_replace(' ','',$ucName);
+	}
 	
-	public $deploymentUrlPrefix;
+	_defalt($settings, 'nodePackageNamePrefix', preg_replace('/[^a-z0-9-]/','',str_replace(' ','-',strtolower($settings['projectName']))));
+	_defalt($settings, 'deploymentUrlPrefix', 'http://'.preg_replace('/[^a-z0-9]/','',strtolower($settings['projectName'])).'.localhost/');
+	_defalt($settings, 'databaseName', $littleProjectName);
+	_defalt($settings, 'databaseHost', 'localhost');
+	_defalt($settings, 'databaseUser', $settings['databaseName']);
+	_defalt($settings, 'databasePassword', $settings['databaseName']);
+	_defalt($settings, 'databaseObjectPrefix', $settings['databaseName'].'schema.');
+	return $settings;
 }
 
-class EarthIT_PHP_ProjectSetupper {
-	public $templateDir;
-	public $projectDir;
-	public $shouldOverwriteFiles;
-	public $makeTargetsToBuild;
-		
-	public function __construct( $tplDir, $projDir, $projName, $projNamespace ) {
-		$this->templateDir = $tplDir;
-		$this->projectDir  = $projDir;
-		
-		$ps = $this->projectSettings = new EarthIT_PHP_ProjectSetupper_ProjectSettings();
-		$ps->projectName = $projName;
-		$ps->phpNamespace = $projNamespace;
+function defaultSettingsMetadata() {
+	$titles = array(
+		'project name',
+		'PHP namespace',
+		'database name',
+		'database host',
+		'database user',
+		'database password',
+		'deployment URL prefix',
+		'database object prefix'
+	);
+	$md = array();
+	foreach( $titles as $t ) {
+		$md[EarthIT_Schema_WordUtil::toCamelCase($t)] = array('title'=>$t);
 	}
-	
-	public function loadSettings( $s ) {
-		foreach( $s as $k => $v ) {
-			if( property_exists($this->projectSettings, $k) ) {
-				$this->projectSettings->$k = $v;
-			} else {
-				throw new Exception("Unrecognized project setting key '$k'");
-			}
-		}
-	}
-	
-	public function initDefaults() {
-		if( $this->templateDir === null ) {
-			throw new Exception("No default for template directory.");
-		}
-		if( $this->projectSettings->projectName === null ) {
-			throw new Exception("No default for project name.");
-		}
-		if( $this->projectDir === null ) {
-			throw new Exception("No default for project directory.");
-		}
-		
-		$littleProjectName = preg_replace('/[^a-z0-9]/','',strtolower($this->projectSettings->projectName));
-		
-		if( $this->projectSettings->phpNamespace === null ) {
-			$fixName = strtr( $this->projectSettings->projectName, array('-'=>' ','/'=>'_','\\'=>'_') );
-			$fixName = preg_replace('/[^a-z0-9 _]/i','',$fixName);
-			$ucName = ucwords($fixName);
-			
-			$this->projectSettings->phpNamespace = str_replace(' ','',$ucName);
-		}
-		
-		$this->projectSettings->nodePackageNamePrefix = preg_replace('/[^a-z0-9-]/','',str_replace(' ','-',strtolower($this->projectSettings->projectName)));
-		$this->projectSettings->deploymentUrlPrefix = 'http://'.preg_replace('/[^a-z0-9]/','',strtolower($this->projectSettings->projectName)).'.localhost/';
-		$this->projectSettings->databaseName = $littleProjectName;
-		$this->projectSettings->databaseHost = 'localhost';
-		$this->projectSettings->databaseUser = $this->projectSettings->databaseName;
-		$this->projectSettings->databasePassword = $this->projectSettings->databaseName;
-	}
-	
-	public function getProjectLibDir() {
-		return 'lib/'.str_replace(array('_','\\'),'/',$this->projectSettings->phpNamespace);
-	}
-	
-	protected function templatify( $source, $dest, $doReplacements=true ) {
-		if( is_dir($source) ) {
-			$dh = opendir($source);
-			while( ($fn = readdir($dh)) !== false ) {
-				if( $fn == '.' or $fn == '..' ) continue;
-				$subSource = "{$source}/{$fn}";
-				if( preg_match('/~$/', $fn, $bif) ) {
-					// Backup file; ignore that carp.
-				} else if( preg_match('/(.*)\.tpl$/', $fn, $bif) ) {
-					$this->templatify( $subSource, "{$dest}/{$bif[1]}" );
-				} else if( is_dir($subSource) ) {
-					$this->templatify( $subSource, "{$dest}/{$fn}" );
-				} else {
-					$this->templatify( $subSource, "{$dest}/{$fn}", false );
-				}
-			}
-			closedir($dh);
-			return;
-		} else if( file_exists($dest) && !$this->shouldOverwriteFiles ) return false;
-		
-		$c = file_get_contents( $source );
-		if( $c === false ) {
-			throw new Exception("Failed to read template from file: $source");
-		}
-		
-		if( $doReplacements ) {
-			$replacements = array();
-			foreach( $this->projectSettings as $k=>$v ) {
-				$replacements['{#'.$k.'}'] = $v;
-			}
-			$replacements['{#projectLibDir}'] = $this->getProjectLibDir();
-			
-			$c = strtr( $c, $replacements );
-		}
-		
-		$destDir = dirname($dest);
-		if( !is_dir($destDir) ) {
-			if( mkdir( $destDir, 0755, true ) === false ) {
-				throw new Exception("Failed to create directory: $destDir");
-			}
-		}
-		if( $dest == '-' ) {
-			echo $c;
-		} else if( file_put_contents( $dest, $c ) === false ) {
-			throw new Exception("Failed to write file: $dest");
-		} else {
-			chmod($dest, fileperms($source));
-		}
-		
-		return true;
-	}
-	
-	public function run() {
-		$t = $this->templateDir;
-		$p = $this->projectDir;
-		$n = $this->projectSettings->phpNamespace;
-		$l = $this->getProjectLibDir();
-		$dbName = $this->projectSettings->databaseName;
-		
-		// All template/normal/X.tpl correspond exactly to project/<X>
-		$this->templatify( $t.'/normal',  $p );
-		
-		// 'special' templates are special because their corresponding
-		// output file is determined on a case-by-case basis.
-		$this->templatify( $t.'/special/lib',    $p.'/'.$l );
-		if( $this->templatify( $t.'/special/composer.json.tpl', $p.'/composer.json' ) ) {
-			system('cd '.escapeshellarg($p).' && composer install && make');
-		}
-		if( $this->makeTargetsToBuild ) {
-			system("make -C ".escapeshellarg($this->projectDir)." ".implode(" ",$this->makeTargetsToBuild));
-		}
-		$this->templatify( $t.'/special/WELCOME.tpl', '-' );
-	}
+	return $md;
 }
 
-# Run this from inside the directory that should contain your project
+function generateSettingsMetadata(array $settings, array $dmd=null) {
+	if( $dmd === null ) $dmd = defaultSettingsMetadata();
+	$md = array();
+	foreach( $settings as $k=>$v ) {
+		if( is_array($v) ) continue;
+		$md[$k] = isset($dmd[$k]) ? $dmd[$k] : array('title'=>$k);
+	}
+	return $md;
+}
 
 function dieForUsageError( $message ) {
 	global $argv;
@@ -160,7 +70,9 @@ function prompt( $name, $defaultValue='' ) {
 	echo "$name";
 	if( $defaultValue ) echo " [$defaultValue]";
 	echo "> ";
-	$input = trim(fgets( STDIN ));
+	$line = fgets( STDIN );
+	$input = trim($line);
+	if( $input == '\\' ) return '';
 	if( $input == '' ) return $defaultValue;
 	return $input;
 }
@@ -174,12 +86,13 @@ function dumpProjectSettingsKeys( $stream ) {
 // TODO: Refactor ProjectSetupper constructor to take a ProjectSettings
 // and allow settings to be given on the command-line
 
+$templateProjectDir = null;
+$outputProjectDir = null;
 $projectName = null;
 $phpNamespace = null;
 $interactive = false;
 $showHelp = false;
 $overwrite = false;
-$projectDir = null;
 $makeTargetsToBuild = array();
 $settings = array();
 for( $i=1; $i<$argc; ++$i ) {
@@ -189,7 +102,10 @@ for( $i=1; $i<$argc; ++$i ) {
 		$showHelp = true;
 		break;
 	case '-o':
-		$projectDir = $argv[++$i];
+		$outputProjectDir = $argv[++$i];
+		break;
+	case '-t':
+		$templateProjectDir = $argv[++$i];
 		break;
 	case '-i':
 		$interactive = true;
@@ -224,50 +140,72 @@ if( $showHelp ) {
 	fwrite( STDOUT, "Usage: {$argv[0]} [<project name>] [<namespace>] [-i] [-?]\n" );
 	fwrite( STDOUT, "Options:\n" );
 	fwrite( STDOUT, "  -i       ; interactive\n" );
+	fwrite( STDOUT, "  -t <dir> ; specify template directory\n" );
 	fwrite( STDOUT, "  -o <dir> ; specify output directory (defaults to '.')\n" );
 	fwrite( STDOUT, "  -?       ; show help\n" );
 	exit(0);
 }
 
+if( $templateProjectDir === null ) {
+	$templateProjectDir = __DIR__.'/vendor/earthit/php-template-project';
+}
 if( $projectName === null and !$interactive ) {
 	dieForUsageError("Project name must be specified unless in interactive mode");
 }
-if( $projectDir === null and !$interactive ) {
+if( $outputProjectDir === null and !$interactive ) {
 	dieForUsageError("Project directory must be specified unless in interactive mode");
 }
 
-$templateDir = dirname(__FILE__)."/template";
-
-foreach( $settings as $k=>$v ) {
-	if( !property_exists('EarthIT_PHP_ProjectSetupper_ProjectSettings',$k) ) {
-		fwrite( STDERR, "Error: invalid settings key '$k'\nValid keys are:\n" );
-		dumpProjectSettingsKeys( STDERR );
-		exit(1);
-	}
+if( !is_dir($templateProjectDir) ) {
+	dieForUsageError("Template directory '{$templateProjectDir}' does not exist.");
 }
+
+$templateProject = new EarthIT_PHPProjectRewriter_Project($templateProjectDir);
+$templateProjectSettings = $templateProject->getConfig();
+
+$templateSettingsMetadataFile = "{$templateProjectDir}/.ppi-settings-metadata.json";
+if( file_exists($templateSettingsMetadataFile) ) {
+	$settingsMetadata = json_decode(file_get_contents($settingsMetadataFile),true);
+} else {
+	$settingsMetadata = null;
+}
+$settingsMetadata = generateSettingsMetadata($templateProjectSettings, $settingsMetadata);
+
+
+$outputSettingsFile = "{$outputProjectDir}/.ppi-settings.json";
+if( file_exists($outputSettingsFile) ) {
+	$outputProjectSettings = json_decode(file_get_contents($outputSettingsFile),true);
+} else {
+	$outputProjectSettings = array();
+}
+$outputProjectSettings['projectName'] = $projectName;
 
 if( $interactive ) {
-	$projectName = prompt( "Project name", $projectName );
-	$projectDir = prompt( "Project directory", $projectDir );
-	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName, $phpNamespace );
-	$setupper->shouldOverwriteFiles = $overwrite;
-	$setupper->makeTargetsToBuild = $makeTargetsToBuild;
-	$setupper->initDefaults();
-	$setupper->loadSettings($settings);
-	$setupper->projectSettings->phpNamespace = prompt( "PHP class namespace", $setupper->projectSettings->phpNamespace );
-	$setupper->projectSettings->databaseName = prompt( "Database name", $setupper->projectSettings->databaseName );
-	$setupper->projectSettings->databaseUser = prompt( "Database user", $setupper->projectSettings->databaseUser );
-	$setupper->projectSettings->databaseHost = prompt( "Database host", $setupper->projectSettings->databaseHost );
-	$setupper->projectSettings->databasePassword = prompt( "Database password", $setupper->projectSettings->databasePassword );
-	$setupper->projectSettings->deploymentUrlPrefix = prompt( "Deployment URL prefix", $setupper->projectSettings->deploymentUrlPrefix );
-} else {
-	$setupper = new EarthIT_PHP_ProjectSetupper( $templateDir, $projectDir, $projectName, $phpNamespace );
-	$setupper->shouldOverwriteFiles = $overwrite;
-	$setupper->makeTargetsToBuild = $makeTargetsToBuild;
-	if( $phpNamespace ) {
-		$setupper->projectSettings->phpNamespace = $phpNamespace;
+	echo
+		"Hit enter to accept [default values].\n",
+		"Enter a single backslash to indicate 'empty string'\n";
+	$outputProjectDir = prompt( "Project directory", $outputProjectDir );
+	$outputProjectSettings['projectName'] = prompt( "Project name", $outputProjectSettings['projectName'] );
+	$outputProjectSettings = defaultSettings($outputProjectSettings);
+	foreach( $settingsMetadata as $k=>$info ) {
+		if( $k == 'projectName' ) continue; // Already asked!
+		$outputProjectSettings[$k] = prompt( $info['title'], $outputProjectSettings[$k] );
 	}
-	$setupper->initDefaults();
-	$setupper->loadSettings($settings);
+} else {
+	$outputProjectSettings = defaultSettings($outputProjectSettings);
 }
-$setupper->run();
+
+foreach( $templateProjectSettings as $k=>$v ) {
+	// Anything setting not explicitly defined should default to the
+	// template project's value.
+	_defalt($outputProjectSettings, $k, $v);
+}
+
+if( !is_dir($outputProjectDir) ) mkdir($outputProjectDir, 0755, true);
+
+file_put_contents($outputSettingsFile, EarthIT_JSON::prettyEncode($outputProjectSettings)."\n");
+
+$outputProject = new EarthIT_PHPProjectRewriter_Project($outputProjectDir, $outputProjectSettings);
+
+$rewriter = new EarthIT_PHPProjectRewriter();
+$rewriter->rewrite( $templateProject, $outputProject );

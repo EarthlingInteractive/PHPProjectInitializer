@@ -1,3 +1,0 @@
-{
-    "deploymentUrlPrefix": "{#deploymentUrlPrefix}"
-}
