@@ -569,12 +569,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/EarthlingInteractive/PHPProjectRewriter.git",
-                "reference": "5e63490049c06dd556bacd9e4320e175736c20fd"
+                "reference": "e4427007a29b97a93eca4a79d3a18910f2e2e7a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EarthlingInteractive/PHPProjectRewriter/zipball/5e63490049c06dd556bacd9e4320e175736c20fd",
-                "reference": "5e63490049c06dd556bacd9e4320e175736c20fd",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPProjectRewriter/zipball/e4427007a29b97a93eca4a79d3a18910f2e2e7a5",
+                "reference": "e4427007a29b97a93eca4a79d3a18910f2e2e7a5",
                 "shasum": ""
             },
             "type": "library",
@@ -585,7 +585,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Creates a new project from an old one, rewriting identifiers as appropriate.",
-            "time": "2014-11-12 18:54:46"
+            "time": "2014-11-12 19:53:21"
         },
         {
             "name": "earthit/php-project-utils",
