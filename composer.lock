@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3e15c5b665b1772760d6fac973437865",
+    "hash": "b4e0452b36bc89a6ffa95c1378dcbe42",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -470,16 +470,16 @@
         },
         {
             "name": "earthit/cmip-rest",
-            "version": "0.0.82",
+            "version": "0.0.83",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EarthlingInteractive/PHPCMIPREST.git",
-                "reference": "d79cdcaa061db79ef6e4bcf740501da9a720275e"
+                "reference": "1cc2e74af482fda3f8e1a76fe1f61461cd4faf46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EarthlingInteractive/PHPCMIPREST/zipball/d79cdcaa061db79ef6e4bcf740501da9a720275e",
-                "reference": "d79cdcaa061db79ef6e4bcf740501da9a720275e",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPCMIPREST/zipball/1cc2e74af482fda3f8e1a76fe1f61461cd4faf46",
+                "reference": "1cc2e74af482fda3f8e1a76fe1f61461cd4faf46",
                 "shasum": ""
             },
             "require": {
@@ -506,7 +506,7 @@
                 "MIT"
             ],
             "description": "Collection-Modifiers-ID-Property REST framework",
-            "time": "2014-11-07 22:08:41"
+            "time": "2014-11-14 16:25:25"
         },
         {
             "name": "earthit/dbc",
@@ -565,7 +565,7 @@
         },
         {
             "name": "earthit/php-project-rewriter",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EarthlingInteractive/PHPProjectRewriter.git",
@@ -622,28 +622,28 @@
         },
         {
             "name": "earthit/php-template-project",
-            "version": "dev-master",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EarthlingInteractive/PHPTemplateProject.git",
-                "reference": "f9a6623080247cc5f9b040254f555da05599439c"
+                "reference": "bea31bc85c2bb6ec9cefe2a06bcdded1f08cd41d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EarthlingInteractive/PHPTemplateProject/zipball/f9a6623080247cc5f9b040254f555da05599439c",
-                "reference": "f9a6623080247cc5f9b040254f555da05599439c",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPTemplateProject/zipball/bea31bc85c2bb6ec9cefe2a06bcdded1f08cd41d",
+                "reference": "bea31bc85c2bb6ec9cefe2a06bcdded1f08cd41d",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "~2.4.0",
-                "earthit/cmip-rest": "~0.0.72",
+                "earthit/cmip-rest": "~0.0.83",
                 "earthit/dbc": "~0.0.6",
                 "earthit/php-common": "~0.0.8",
                 "earthit/php-project-utils": "~0.0.4",
                 "earthit/schema": "~0.1.0",
                 "php": ">=5.2.0",
                 "ryprop/nife": "~0.0.2",
-                "togos/tpfetcher": "~0.0.3"
+                "togos/tpfetcher": "~0.0.5"
             },
             "require-dev": {
                 "phpunit/phpunit": "~3.7.37"
@@ -659,7 +659,7 @@
                 "MIT"
             ],
             "description": "PHP Template Project",
-            "time": "2014-11-12 20:17:47"
+            "time": "2014-11-14 22:55:34"
         },
         {
             "name": "earthit/schema",
@@ -756,16 +756,16 @@
         },
         {
             "name": "togos/tpfetcher",
-            "version": "0.0.3",
+            "version": "0.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TOGoS/TPFetcher.git",
-                "reference": "77af1345a5362b9143e475565d334e1358424ea8"
+                "reference": "4fd63dd5ab67109d489a6d4c9d5cd156f5b0ac85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TOGoS/TPFetcher/zipball/77af1345a5362b9143e475565d334e1358424ea8",
-                "reference": "77af1345a5362b9143e475565d334e1358424ea8",
+                "url": "https://api.github.com/repos/TOGoS/TPFetcher/zipball/4fd63dd5ab67109d489a6d4c9d5cd156f5b0ac85",
+                "reference": "4fd63dd5ab67109d489a6d4c9d5cd156f5b0ac85",
                 "shasum": ""
             },
             "require": {
@@ -780,16 +780,13 @@
                 "MIT"
             ],
             "description": "Fetch blobs by hash-based URN.",
-            "time": "2014-09-22 16:31:58"
+            "time": "2014-11-14 22:17:53"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "earthit/php-template-project": 20,
-        "earthit/php-project-rewriter": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "platform": [],
     "platform-dev": []
