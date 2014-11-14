@@ -228,7 +228,6 @@ $rewriter->rewrite( $templateProject, $outputProject );
 if( is_dir($outputProjectConfigDir = "{$outputProjectDir}/config") ) {
 	$dh = opendir($outputProjectConfigDir);
 	while( ($fn = readdir($dh)) !== false ) {
-		echo $fn,"\n";
 		if( preg_match('/^(.*?)\.example$/',$fn,$bif) and !file_exists("{$outputProjectConfigDir}/{$bif[1]}") ) {
 			copy("{$outputProjectConfigDir}/{$fn}", "{$outputProjectConfigDir}/{$bif[1]}");
 		}
