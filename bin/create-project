@@ -1,7 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__.'/vendor/autoload.php';
+$baseDir = __DIR__.'/..';
+require_once $baseDir.'/vendor/autoload.php';
 
 function _defalt( array &$a, $k, $defaultValue ) {
 	if( !isset($a[$k]) ) $a[$k] = $defaultValue;
@@ -131,7 +132,7 @@ for( $i=1; $i<$argc; ++$i ) {
 			if( preg_match('/^(.+?)=(.*)$/',$arg,$bif) ) {
 				$outputProjectSettings[$bif[1]] = $bif[2];
 				break;
-			} else if( $projectName === null ) {
+			} else if( $outputProjectSettings['projectName'] === null ) {
 				$outputProjectSettings['projectName'] = $arg;
 				break;
 			} else if( $phpNamespace === null ) {
@@ -162,7 +163,7 @@ if( $showHelp ) {
 }
 
 if( $templateProjectDir === null ) {
-	$templateProjectDir = __DIR__.'/vendor/earthit/php-template-project';
+	$templateProjectDir = $baseDir.'/vendor/earthit/php-template-project';
 }
 if( $outputProjectDir === null and !$interactive ) {
 	dieForUsageError("Project directory must be specified unless in interactive mode");
