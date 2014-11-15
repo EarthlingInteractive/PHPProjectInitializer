@@ -88,13 +88,14 @@ function dumpProjectSettingsKeys( $stream ) {
 
 $templateProjectDir = null;
 $outputProjectDir = null;
-$projectName = null;
 $phpNamespace = null;
 $interactive = false;
 $showHelp = false;
 $overwrite = false;
 $makeTargetsToBuild = array();
-$settings = array();
+$outputProjectSettings = array(
+	'projectName' => null
+);
 for( $i=1; $i<$argc; ++$i ) {
 	$arg = $argv[$i];
 	switch( $arg ) {
@@ -128,10 +129,10 @@ for( $i=1; $i<$argc; ++$i ) {
 	default:
 		if( $arg[0] != '-' ) {
 			if( preg_match('/^(.+?)=(.*)$/',$arg,$bif) ) {
-				$settings[$bif[1]] = $bif[2];
+				$outputProjectSettings[$bif[1]] = $bif[2];
 				break;
 			} else if( $projectName === null ) {
-				$projectName = $arg;
+				$outputProjectSettings['projectName'] = $arg;
 				break;
 			} else if( $phpNamespace === null ) {
 				$phpNamespace = $arg;
@@ -163,9 +164,6 @@ if( $showHelp ) {
 if( $templateProjectDir === null ) {
 	$templateProjectDir = __DIR__.'/vendor/earthit/php-template-project';
 }
-if( $projectName === null and !$interactive ) {
-	dieForUsageError("Project name must be specified unless in interactive mode");
-}
 if( $outputProjectDir === null and !$interactive ) {
 	dieForUsageError("Project directory must be specified unless in interactive mode");
 }
@@ -185,20 +183,26 @@ if( file_exists($templateSettingsMetadataFile) ) {
 }
 $settingsMetadata = generateSettingsMetadata($templateProjectSettings, $settingsMetadata);
 
-
-$outputSettingsFile = "{$outputProjectDir}/.ppi-settings.json";
-if( file_exists($outputSettingsFile) ) {
-	$outputProjectSettings = json_decode(file_get_contents($outputSettingsFile),true);
-} else {
-	$outputProjectSettings = array();
-}
-$outputProjectSettings['projectName'] = $projectName;
-
 if( $interactive ) {
 	echo
 		"Hit enter to accept [default values].\n",
 		"Enter a single backslash to indicate 'empty string'\n";
 	$outputProjectDir = prompt( "Project directory", $outputProjectDir );
+}
+
+$outputSettingsFile = "{$outputProjectDir}/.ppi-settings.json";
+if( file_exists($outputSettingsFile) ) {
+	$outputProjectSettings = array_merge(
+		$outputProjectSettings,
+		json_decode(file_get_contents($outputSettingsFile),true)
+	);
+}
+
+if( !isset($outputProjectSettings['projectName']) and !$interactive ) {
+	dieForUsageError("Project name must be specified unless in interactive mode");
+}
+
+if( $interactive ) {
 	$outputProjectSettings['projectName'] = prompt( "Project name", $outputProjectSettings['projectName'] );
 	$outputProjectSettings = defaultSettings($outputProjectSettings);
 	foreach( $settingsMetadata as $k=>$info ) {
