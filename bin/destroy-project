@@ -1,0 +1,28 @@
+#!/usr/bin/php
+<?php
+
+$projectDirs = array();
+$dropDb = false;
+for( $i=1; $i<count($argv); ++$i ) {
+	if( '--drop-database' == $argv[$i] ) {
+		$dropDb = true;
+	} else if( $argv[$i] and $argv[$i][0] != '-' ) {
+		$projectDirs[] = $argv[$i];
+	} else {
+		fwrite(STDERR, "Error: Unrecognized argument: {$argv[$i]}\n");
+		exit(1);
+	}
+}
+
+foreach( $projectDirs as $dir ) {
+	$cmds = array();
+	if( $dropDb ) {
+		$cmds[] = "cd ".escapeshellarg($dir);
+		$cmds[] = "make drop-database";
+		$cmds[] = "cd ..";
+	}
+	$cmds[] = "rm -rf ".escapeshellarg($dir);
+	$cmd = implode(' && ',$cmds);
+	echo "\$ {$cmd}\n";
+	system($cmd);
+}
