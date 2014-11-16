@@ -14,6 +14,11 @@ for( $i=1; $i<count($argv); ++$i ) {
 	}
 }
 
+if( !$dropDb ) {
+	fwrite(STDERR, "Refusing to run without --drop-database, because that's the whole point of this program.\n");
+	exit(1);
+}
+
 foreach( $projectDirs as $dir ) {
 	$cmds = array();
 	if( $dropDb ) {
