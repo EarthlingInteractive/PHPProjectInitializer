@@ -28,7 +28,7 @@ function defaultSettings( array $settings ) {
 	_defalt($settings, 'databaseHost', 'localhost');
 	_defalt($settings, 'databaseUser', $settings['databaseName']);
 	_defalt($settings, 'databasePassword', $settings['databaseName']);
-	_defalt($settings, 'databaseObjectPrefix', '');
+	_defalt($settings, 'databaseNamespace', 'public');
 	return $settings;
 }
 
@@ -41,11 +41,12 @@ function defaultSettingsMetadata() {
 		'database user',
 		'database password',
 		'deployment URL prefix',
-		'database object prefix'
+		'database object prefix',
+		'database namespace'
 	);
 	$md = array();
 	foreach( $titles as $t ) {
-		$md[EarthIT_Schema_WordUtil::toCamelCase($t)] = array('title'=>$t);
+		$md[EarthIT_Schema_WordUtil::toCamelCase($t)] = array('title'=>$t, 'notes'=>'');
 	}
 	return $md;
 }
@@ -67,8 +68,14 @@ function dieForUsageError( $message ) {
 	exit(1);
 }
 
-function prompt( $name, $defaultValue='' ) {
-	echo "$name";
+function prompt( array $fieldInfo, $defaultValue='' ) {
+	if( !empty($fieldInfo['notes']) ) {
+		$notes = is_array($fieldInfo['notes']) ? $fieldInfo['notes'] : array($fieldInfo['notes']);
+		foreach( $notes as $note ) {
+			echo $note, "\n";
+		}
+	}
+	echo $fieldInfo['title'];
 	if( $defaultValue ) echo " [$defaultValue]";
 	echo "> ";
 	$line = fgets( STDIN );
@@ -178,7 +185,7 @@ $templateProjectSettings = $templateProject->getConfig();
 
 $templateSettingsMetadataFile = "{$templateProjectDir}/.ppi-settings-metadata.json";
 if( file_exists($templateSettingsMetadataFile) ) {
-	$settingsMetadata = json_decode(file_get_contents($settingsMetadataFile),true);
+	$settingsMetadata = json_decode(file_get_contents($templateSettingsMetadataFile),true);
 } else {
 	$settingsMetadata = null;
 }
@@ -188,7 +195,7 @@ if( $interactive ) {
 	echo
 		"Hit enter to accept [default values].\n",
 		"Enter a single backslash to indicate 'empty string'\n";
-	$outputProjectDir = prompt( "Project directory", $outputProjectDir );
+	$outputProjectDir = prompt( array('title'=>"Project directory"), $outputProjectDir );
 }
 
 $outputSettingsFile = "{$outputProjectDir}/.ppi-settings.json";
@@ -204,11 +211,12 @@ if( !isset($outputProjectSettings['projectName']) and !$interactive ) {
 }
 
 if( $interactive ) {
-	$outputProjectSettings['projectName'] = prompt( "Project name", $outputProjectSettings['projectName'] );
+	$outputProjectSettings['projectName'] = prompt( array('title'=>"Project name"), $outputProjectSettings['projectName'] );
 	$outputProjectSettings = defaultSettings($outputProjectSettings);
 	foreach( $settingsMetadata as $k=>$info ) {
 		if( $k == 'projectName' ) continue; // Already asked!
-		$outputProjectSettings[$k] = prompt( $info['title'], $outputProjectSettings[$k] );
+		$v = isset($outputProjectSettings[$k]) ? $outputProjectSettings[$k] : '';
+		$outputProjectSettings[$k] = prompt( $info, $v );
 	}
 } else {
 	$outputProjectSettings = defaultSettings($outputProjectSettings);
