@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b4e0452b36bc89a6ffa95c1378dcbe42",
+    "hash": "abb81b62214916854989590a8c0760e5",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -622,16 +622,16 @@
         },
         {
             "name": "earthit/php-template-project",
-            "version": "0.1.1",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EarthlingInteractive/PHPTemplateProject.git",
-                "reference": "bea31bc85c2bb6ec9cefe2a06bcdded1f08cd41d"
+                "reference": "41d9cd5d58600d3a37aefe359b0d9897e63c2be1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EarthlingInteractive/PHPTemplateProject/zipball/bea31bc85c2bb6ec9cefe2a06bcdded1f08cd41d",
-                "reference": "bea31bc85c2bb6ec9cefe2a06bcdded1f08cd41d",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPTemplateProject/zipball/41d9cd5d58600d3a37aefe359b0d9897e63c2be1",
+                "reference": "41d9cd5d58600d3a37aefe359b0d9897e63c2be1",
                 "shasum": ""
             },
             "require": {
@@ -659,7 +659,7 @@
                 "MIT"
             ],
             "description": "PHP Template Project",
-            "time": "2014-11-14 22:55:34"
+            "time": "2014-11-18 16:40:35"
         },
         {
             "name": "earthit/schema",
