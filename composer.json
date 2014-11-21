@@ -3,7 +3,6 @@
     "require": {
 	"earthit/schema": "~0.1.1",
 	"earthit/php-common": "~0.0.10",
-	"earthit/php-template-project": "~0.2.0",
 	"earthit/php-project-rewriter": "~0.1.0"
     }
 }
