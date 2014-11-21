@@ -1,12 +1,19 @@
 #!/usr/bin/env php
 <?php
 
-$baseDir = __DIR__.'/..';
-require_once $baseDir.'/vendor/autoload.php';
+function leMake( array $targets, $baseDir='.' ) {
+	$cmd = "make -C ".escapeshellarg($baseDir)." ".implode(" ",array_map('escapeshellarg',$targets));
+	$status = null;
+	system($cmd, $status);
+	if( $status != 0 ) {
+		fwrite( STDERR, "Error: Failed to build stuff; make failed:\n  $cmd\n" );
+		exit(1);
+	}
+}
 
 function _defalt( array &$a, $k, $defaultValue ) {
 	if( !isset($a[$k]) ) $a[$k] = $defaultValue;
- }
+}
 
 function defaultSettings( array $settings ) {
 	if( !isset($settings['projectName']) ) {
@@ -91,6 +98,14 @@ function dumpProjectSettingsKeys( $stream ) {
 	}
 }
 
+
+
+
+//// Parse command-line arguments ////
+
+$baseDir = __DIR__.'/..';
+echo "Base directory: $baseDir\n";
+
 // TODO: Refactor ProjectSetupper constructor to take a ProjectSettings
 // and allow settings to be given on the command-line
 
@@ -151,6 +166,11 @@ for( $i=1; $i<$argc; ++$i ) {
 	}
 }
 
+
+
+
+//// Check arguments ////
+
 $usageText = 
 	"Usage: {$argv[0]} [<project name>] [<namespace>] [-i] [-?]\n".
 	"General options:\n".
@@ -170,15 +190,33 @@ if( $showHelp ) {
 }
 
 if( $templateProjectDir === null ) {
-	$templateProjectDir = $baseDir.'/vendor/earthit/php-template-project';
+	$templateProjectDir = $baseDir.'/templates/PHPTemplateProject';
 }
 if( $outputProjectDir === null and !$interactive ) {
 	dieForUsageError("Project directory must be specified unless in interactive mode");
 }
 
-if( !is_dir($templateProjectDir) ) {
-	dieForUsageError("Template directory '{$templateProjectDir}' does not exist.");
+
+
+
+//// Build PHPProjectInitializer if needed ////
+
+$prereqs = array();
+if( strpos($templateProjectDir,$baseDir) === 0 and !file_exists($templateProjectDir) ) {
+	$prereqs[] = substr($templateProjectDir,strlen($baseDir)+1);
 }
+if( !file_exists("$baseDir/vendor/autoload.php") ) {
+	$prereqs[] = "vendor/autoload.php";
+}
+
+leMake($prereqs, $baseDir);
+
+
+
+
+//// Do the work ////
+
+require_once $baseDir.'/vendor/autoload.php';
 
 $templateProject = new EarthIT_PHPProjectRewriter_Project($templateProjectDir);
 $templateProjectSettings = $templateProject->getConfig();
