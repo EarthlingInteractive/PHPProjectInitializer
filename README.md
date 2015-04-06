@@ -15,3 +15,8 @@ This can be used to rewrite any project that contains a
 ```.ppi-settings.json``` and ```.ppi-settings-metadata.json``` file,
 but by default will pull down and use a recent version of
 [PHPTemplateProject](http://github.com/EarthlingInteractive/PHPTemplateProject)
+
+To get started with your PHPTemplateProject right away, run
+```bin/create-project -i --make everything```.  This will attempt to
+```sudo``` to the ```postgres``` user to create your database, run the
+upgrade scripts, run the unit tests, and start a web server.
