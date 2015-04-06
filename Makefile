@@ -15,7 +15,7 @@ templates/PHPTemplateProject:
 	cd "$@" && \
 	git init && \
 	git remote add github-http https://github.com/EarthlingInteractive/PHPTemplateProject.git && \
-	git pull github-http 0.3.1
+	git pull github-http 0.3.3
 
 vendor/autoload.php:
 	composer install
