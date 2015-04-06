@@ -1,5 +1,5 @@
 generated_files = vendor/autoload.php templates/PHPTemplateProject
-generated_dirs = vendor templates
+generated_dirs = vendor templates/PHPTemplateProject
 
 default: ${generated_files}
 
@@ -10,12 +10,14 @@ clean:
 
 all: default
 
-templates/PHPTemplateProject:
+templates/PHPTemplateProject: templates/PHPTemplateProject.version
+	rm -rf "$@"
 	mkdir -p "$@"
+	version=`cat "$<"` && \
 	cd "$@" && \
 	git init && \
 	git remote add github-http https://github.com/EarthlingInteractive/PHPTemplateProject.git && \
-	git pull github-http 0.4.0
+	git pull github-http $$version
 
 vendor/autoload.php:
 	composer install
