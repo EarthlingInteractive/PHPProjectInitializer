@@ -1,12 +1,11 @@
-generated_files = vendor/autoload.php templates/PHPTemplateProject
-generated_dirs = vendor templates/PHPTemplateProject
+generated_files = vendor templates/PHPTemplateProject
 
 default: ${generated_files}
 
 .PHONY: all clean default
 
 clean:
-	rm -rf ${generated_files} ${generated_dirs}
+	rm -rf ${generated_files}
 
 all: default
 
@@ -19,6 +18,10 @@ templates/PHPTemplateProject: templates/PHPTemplateProject.version
 	git remote add github-http https://github.com/EarthlingInteractive/PHPTemplateProject.git && \
 	git pull github-http $$version
 
-vendor/autoload.php:
+vendor: composer.lock
 	composer install
 	touch "$@"
+
+composer.lock: | composer.json
+	rm -f "$@"
+	composer install

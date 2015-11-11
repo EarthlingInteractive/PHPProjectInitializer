@@ -1,8 +1,8 @@
 {
     "name": "earthit/php-project-initializer",
     "require": {
-	"earthit/schema": "~0.1",
-	"earthit/php-common": "~0.0.10",
-	"earthit/php-project-rewriter": "~0.1"
+	"earthit/schema": "^1.1.0",
+	"earthit/php-common": "^1.1.1",
+	"earthit/php-project-rewriter": "^0.2.0"
     }
 }

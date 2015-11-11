@@ -1,2 +1,3 @@
-templates/PHPTemplateProject
-vendor
+/composer.lock
+/templates/PHPTemplateProject
+/vendor

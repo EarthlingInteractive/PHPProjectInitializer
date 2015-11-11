@@ -2,6 +2,7 @@
 <?php
 
 function leMake( array $targets, $baseDir='.' ) {
+	if( count($targets) == 0 ) return;
 	$cmd = "make -C ".escapeshellarg($baseDir)." ".implode(" ",array_map('escapeshellarg',$targets));
 	$status = null;
 	system($cmd, $status);
@@ -201,12 +202,9 @@ if( $outputProjectDir === null and !$interactive ) {
 
 //// Build PHPProjectInitializer if needed ////
 
-$prereqs = array();
+$prereqs = array('vendor');
 if( strpos($templateProjectDir,$baseDir) === 0 and !file_exists($templateProjectDir) ) {
 	$prereqs[] = substr($templateProjectDir,strlen($baseDir)+1);
-}
-if( !file_exists("$baseDir/vendor/autoload.php") ) {
-	$prereqs[] = "vendor/autoload.php";
 }
 
 leMake($prereqs, $baseDir);

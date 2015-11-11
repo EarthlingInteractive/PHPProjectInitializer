@@ -1,23 +1,24 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "57852675f198fb3269fa590b7c4a3a28",
+    "hash": "45aae160c8477f4841126b0c96eb8629",
+    "content-hash": "4381e38acd3f299d2e1956a9e2114a88",
     "packages": [
         {
             "name": "earthit/php-common",
-            "version": "0.0.14",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EarthlingInteractive/PHPCommon.git",
-                "reference": "f1a734c4550b459b2446a7c70e7b6e272de89d26"
+                "reference": "ad9e8a909348e4440d59cfbc5088dd7ebed8ec9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EarthlingInteractive/PHPCommon/zipball/f1a734c4550b459b2446a7c70e7b6e272de89d26",
-                "reference": "f1a734c4550b459b2446a7c70e7b6e272de89d26",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPCommon/zipball/ad9e8a909348e4440d59cfbc5088dd7ebed8ec9b",
+                "reference": "ad9e8a909348e4440d59cfbc5088dd7ebed8ec9b",
                 "shasum": ""
             },
             "require": {
@@ -35,20 +36,20 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "EarthIT Common PHP Classes",
-            "time": "2015-03-05 18:11:21"
+            "time": "2015-06-16 18:44:47"
         },
         {
             "name": "earthit/php-project-rewriter",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EarthlingInteractive/PHPProjectRewriter.git",
-                "reference": "e4427007a29b97a93eca4a79d3a18910f2e2e7a5"
+                "reference": "ef62d84c8e27e24decf48f32840c302c9ff67312"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EarthlingInteractive/PHPProjectRewriter/zipball/e4427007a29b97a93eca4a79d3a18910f2e2e7a5",
-                "reference": "e4427007a29b97a93eca4a79d3a18910f2e2e7a5",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPProjectRewriter/zipball/ef62d84c8e27e24decf48f32840c302c9ff67312",
+                "reference": "ef62d84c8e27e24decf48f32840c302c9ff67312",
                 "shasum": ""
             },
             "type": "library",
@@ -59,20 +60,20 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Creates a new project from an old one, rewriting identifiers as appropriate.",
-            "time": "2014-11-12 19:53:21"
+            "time": "2015-11-11 03:25:20"
         },
         {
             "name": "earthit/schema",
-            "version": "0.1.5",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EarthlingInteractive/PHPSchema.git",
-                "reference": "b4339492fa9928db3a3f348ff9e03025b8a480c2"
+                "reference": "f5b4135849c60bfa962a656b0da6045b7a5168cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EarthlingInteractive/PHPSchema/zipball/b4339492fa9928db3a3f348ff9e03025b8a480c2",
-                "reference": "b4339492fa9928db3a3f348ff9e03025b8a480c2",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPSchema/zipball/f5b4135849c60bfa962a656b0da6045b7a5168cb",
+                "reference": "f5b4135849c60bfa962a656b0da6045b7a5168cb",
                 "shasum": ""
             },
             "require": {
@@ -85,21 +86,24 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "description": "Schema definition classes",
-            "time": "2015-03-07 17:51:36"
+            "time": "2015-10-23 18:24:45"
         },
         {
             "name": "ryprop/nife",
-            "version": "0.2.4",
+            "version": "0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ryprop/nife.git",
-                "reference": "73aac78b4298b997cc61edfd6a5d61fd9f43a059"
+                "reference": "e56da7edfadfce90b070b380d2f9656afb55cd1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ryprop/nife/zipball/73aac78b4298b997cc61edfd6a5d61fd9f43a059",
-                "reference": "73aac78b4298b997cc61edfd6a5d61fd9f43a059",
+                "url": "https://api.github.com/repos/ryprop/nife/zipball/e56da7edfadfce90b070b380d2f9656afb55cd1c",
+                "reference": "e56da7edfadfce90b070b380d2f9656afb55cd1c",
                 "shasum": ""
             },
             "require": {
@@ -128,7 +132,7 @@
                 "mvc",
                 "nife"
             ],
-            "time": "2015-03-05 17:21:17"
+            "time": "2015-07-31 06:11:01"
         }
     ],
     "packages-dev": [],
