@@ -1,6 +1,17 @@
 #!/usr/bin/env php
 <?php
 
+function sys($cmd) {
+	if( is_array($cmd) ) {
+		$cmd = implode(' ',array_map('escapeshellarg',$cmd));
+	}
+	fwrite(STDERR, "$ $cmd\n");
+	system($cmd, $status);
+	if( $status !== 0 ) {
+		throw new Exception("Command exited with status $status: $cmd");
+	}
+}
+
 function leMake( array $targets, $baseDir='.' ) {
 	if( count($targets) == 0 ) return;
 	$cmd = "make -C ".escapeshellarg($baseDir)." ".implode(" ",array_map('escapeshellarg',$targets));
@@ -110,10 +121,13 @@ echo "Base directory: $baseDir\n";
 // TODO: Refactor ProjectSetupper constructor to take a ProjectSettings
 // and allow settings to be given on the command-line
 
+$gitUserName = null;
+$gitUserEmail = null;
 $templateProjectDir = null;
 $outputProjectDir = null;
 $phpNamespace = null;
 $interactive = false;
+$makeCommits = true;
 $showHelp = false;
 $overwrite = false;
 $makeTargetsToBuild = array();
@@ -134,6 +148,18 @@ for( $i=1; $i<$argc; ++$i ) {
 		break;
 	case '-i':
 		$interactive = true;
+		break;
+	case '-a':
+		if( preg_match( '/^([^<]+)<([^>]+)>$/', $argv[++$i], $bif ) ) {
+			$gitUserName = trim($bif[1]);
+			$gitUserEmail = trim($bif[2]);
+		} else {
+			fwrite(STDERR, "Error: Syntax for -a option must be 'username <e-mail address>'\n");
+			exit(1);
+		}
+		break;
+	case '--no-commit':
+		$makeCommits = false;
 		break;
 	case '--drop-database':
 		$makeTargetsToBuild[] = 'drop-database';
@@ -176,6 +202,7 @@ $usageText =
 	"Usage: {$argv[0]} [<project name>] [<namespace>] [-i] [-?]\n".
 	"General options:\n".
 	"  -i       ; interactive\n".
+	"  -a 'name <e-mail>' ; indicate git user info for initial commit\n".
 	"  -t <dir> ; specify template directory\n".
 	"  -o <dir> ; specify output directory (defaults to '.')\n".
 	"  -?       ; show help\n".
@@ -264,6 +291,31 @@ foreach( $templateProjectSettings as $k=>$v ) {
 	_defalt($outputProjectSettings, $k, $v);
 }
 
+$makeCommits = $makeCommits && is_dir("$templateProjectDir/.git");
+if( $makeCommits ) {
+	// Make sure we have a name and e-mail so we can do as such
+	$gitGlobalUserName  = `git config --global --get user.name`;
+	$gitGlobalUserEmail = `git config --global --get user.email`;
+	if( !$gitUserName and !$gitGlobalUserName ) {
+		if( $interactive ) {
+			$gitUserName = prompt(array('title'=>"Git user name"));
+		} else {
+			fwrite(STDERR, "Can't make commit because no git user.name specified or configured globally.\n");
+			exit(1);
+		}
+	}
+	if( !$gitUserEmail and !$gitGlobalUserEmail ) {
+		if( $interactive ) {
+			$gitUserEmail = prompt(array('title'=>"Git user e-mail address"));
+		} else {
+			fwrite(STDERR, "Can't make commit because no git user.email specified or configured globally.\n");
+			exit(1);
+		}
+	}
+}
+
+//// Actually do the rewrite
+
 if( !is_dir($outputProjectDir) ) mkdir($outputProjectDir, 0755, true);
 
 file_put_contents($outputSettingsFile, EarthIT_JSON::prettyEncode($outputProjectSettings)."\n");
@@ -284,6 +336,24 @@ if( is_dir($outputProjectConfigDir = "{$outputProjectDir}/config") ) {
 	closedir($dh);
 }
 
+if( $makeCommits ) {
+	$dir = getcwd();
+	chdir($outputProjectDir);
+	try {
+		sys("git add -A");
+		sys("git checkout -b rewritten-template-project");
+		if( !$gitGlobalUserName  ) sys("git config user.name ".escapeshellarg($gitUserName));
+		if( !$gitGlobalUserEmail ) sys("git config user.email ".escapeshellarg($gitUserEmail));
+		sys("git commit -m 'Generate from template project'");
+		sys("git checkout master");
+		sys("git merge rewritten-template-project");
+	} finally {
+		chdir($dir);
+	}
+} else {
+	fwrite(STDERR, "\$makeCommits is false\n");
+}
+
 if( $makeTargetsToBuild ) {
-	system("make -C ".escapeshellarg($outputProjectDir)." ".implode(' ',$makeTargetsToBuild));
+	leMake($makeTargetsToBuild, $outputProjectDir);
 }
