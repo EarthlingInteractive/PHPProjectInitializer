@@ -347,6 +347,7 @@ if( $makeCommits ) {
 		sys("git commit -m 'Generate from template project'");
 		sys("git checkout master");
 		sys("git merge rewritten-template-project");
+		sys("git tag | xargs -n 1 git tag -d");
 	} finally {
 		chdir($dir);
 	}
