@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "45aae160c8477f4841126b0c96eb8629",
-    "content-hash": "4381e38acd3f299d2e1956a9e2114a88",
+    "hash": "2bffbdc4bb729e006acdc0caba59bb99",
+    "content-hash": "4f4325b1bb4dd2dab4b07788bcae9b92",
     "packages": [
         {
             "name": "earthit/php-common",
@@ -40,16 +40,16 @@
         },
         {
             "name": "earthit/php-project-rewriter",
-            "version": "0.2.0",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EarthlingInteractive/PHPProjectRewriter.git",
-                "reference": "ef62d84c8e27e24decf48f32840c302c9ff67312"
+                "reference": "90ee6d7b66162adbfbfa3689c2ac472fb7130c19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EarthlingInteractive/PHPProjectRewriter/zipball/ef62d84c8e27e24decf48f32840c302c9ff67312",
-                "reference": "ef62d84c8e27e24decf48f32840c302c9ff67312",
+                "url": "https://api.github.com/repos/EarthlingInteractive/PHPProjectRewriter/zipball/90ee6d7b66162adbfbfa3689c2ac472fb7130c19",
+                "reference": "90ee6d7b66162adbfbfa3689c2ac472fb7130c19",
                 "shasum": ""
             },
             "type": "library",
@@ -60,7 +60,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Creates a new project from an old one, rewriting identifiers as appropriate.",
-            "time": "2015-11-11 03:25:20"
+            "time": "2015-11-13 17:29:39"
         },
         {
             "name": "earthit/schema",
