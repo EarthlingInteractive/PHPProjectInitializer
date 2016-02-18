@@ -42,7 +42,8 @@ function defaultSettings( array $settings ) {
 	}
 	
 	_defalt($settings, 'nodePackageNamePrefix', preg_replace('/[^a-z0-9-]/','',str_replace(' ','-',strtolower($settings['projectName']))));
-	_defalt($settings, 'deploymentUrlPrefix', 'http://'.preg_replace('/[^a-z0-9]/','',strtolower($settings['projectName'])).'.localhost/');
+	_defalt($settings, 'deploymentHostname', preg_replace('/[^a-z0-9]/','',strtolower($settings['projectName'])).'.localhost');
+	_defalt($settings, 'deploymentUrlPrefix', 'http://'.$settings['deploymentHostname'].'/');
 	_defalt($settings, 'databaseName', $littleProjectName);
 	_defalt($settings, 'databaseHost', 'localhost');
 	_defalt($settings, 'databaseUser', $settings['databaseName']);
