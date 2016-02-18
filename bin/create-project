@@ -348,6 +348,7 @@ if( $makeCommits ) {
 		sys("git checkout master");
 		sys("git merge rewritten-template-project");
 		sys("git tag | xargs -n 1 git tag -d");
+		sys("git remote | xargs -n 1 git remote rm"); // Don't want people accidentally pushing to the template's remotes!
 	} finally {
 		chdir($dir);
 	}
