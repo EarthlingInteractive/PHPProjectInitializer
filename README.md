@@ -1,8 +1,8 @@
 ## EIT PHP Project Initializer
 
 This project contains templates and a script to initialize files for a
-new PHP project following the following conventions.  To start a new
-project with it, run ```bin/create-project -i```
+new project following certain conventions.
+To start a new project with it, run ```bin/create-project -i```
 (you can run it from anywhere; it will find the templates relative to
 whatever path you give to ```create-project```).
 It will prompt you for a project name
