@@ -10,6 +10,7 @@ clean:
 all: default
 
 templates/PHPTemplateProject: templates/PHPTemplateProject.version
+	echo 'Checking out template project!' 2>&1
 	rm -rf "$@"
 	mkdir -p "$@"
 	version=`cat "$<"` && \

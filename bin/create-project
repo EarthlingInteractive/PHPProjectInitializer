@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+$termColorsEnabled = true;
+
 function sys($cmd) {
 	if( is_array($cmd) ) {
 		$cmd = implode(' ',array_map('escapeshellarg',$cmd));
@@ -66,7 +68,9 @@ function defaultSettingsMetadata() {
 	);
 	$md = array();
 	foreach( $titles as $t ) {
-		$md[EarthIT_Schema_WordUtil::toCamelCase($t)] = array('title'=>$t, 'notes'=>'');
+		$cc = EarthIT_Schema_WordUtil::toCamelCase($t);
+		if( !isset($md[$cc]) ) $md[$cc] = array();
+		$md[$cc] += array('title'=>$t);
 	}
 	return $md;
 }
@@ -89,13 +93,17 @@ function dieForUsageError( $message ) {
 }
 
 function prompt( array $fieldInfo, $defaultValue='' ) {
+	global $termColorsEnabled;
 	if( !empty($fieldInfo['notes']) ) {
+		echo "\n";
 		$notes = is_array($fieldInfo['notes']) ? $fieldInfo['notes'] : array($fieldInfo['notes']);
 		foreach( $notes as $note ) {
 			echo $note, "\n";
 		}
 	}
+	if( $termColorsEnabled ) echo "\e[96m";
 	echo $fieldInfo['title'];
+	if( $termColorsEnabled ) echo "\e[0m";
 	if( $defaultValue ) echo " [$defaultValue]";
 	echo "> ";
 	$line = fgets( STDIN );
@@ -159,6 +167,9 @@ for( $i=1; $i<$argc; ++$i ) {
 			exit(1);
 		}
 		break;
+	case '--color':
+		$termColorsEnabled = true;
+		break;
 	case '--no-commit':
 		$makeCommits = false;
 		break;
@@ -178,7 +189,17 @@ for( $i=1; $i<$argc; ++$i ) {
 		$overwrite = true;
 		break;
 	default:
-		if( $arg[0] != '-' ) {
+		if( preg_match('/^--color=(on|off|always|never)$/',$arg,$bif) ) {
+			switch( $bif[1] ) {
+			case 'on': case 'always':
+				$termColorsEnabled = true;
+				break;
+			case 'off': case 'never':
+				$termColorsEnabled = false;
+				break;
+			}
+			break;
+		} else if( $arg[0] != '-' ) {
 			if( preg_match('/^(.+?)=(.*)$/',$arg,$bif) ) {
 				$outputProjectSettings[$bif[1]] = $bif[2];
 				break;
@@ -207,6 +228,7 @@ $usageText =
 	"  -t <dir> ; specify template directory\n".
 	"  -o <dir> ; specify output directory (defaults to '.')\n".
 	"  -?       ; show help\n".
+	"  --color={on|off|always|never} ; enable/disable colorful prompts\n".
 	"Build options:\n".
 	"  --make <target>   ; build a Make target on the new project\n".
 	"  --drop-database   ; Short for --make drop-database\n".
@@ -256,10 +278,25 @@ if( file_exists($templateSettingsMetadataFile) ) {
 $settingsMetadata = generateSettingsMetadata($templateProjectSettings, $settingsMetadata);
 
 if( $interactive ) {
+	$welcomePre = $termColorsEnabled ? "\e[1m\e[32m" : '';
+	$welcomePost = $termColorsEnabled ? "\e[0m" : '';
 	echo
+		"\n",
+		" ~ ~ {$welcomePre}Welcome to PHPProjectInitializer!{$welcomePost} ~ ~ \n",
+		"\n",
+		"I'm going to ask you a bunch of questions.\n",
 		"Hit enter to accept [default values].\n",
 		"Enter a single backslash to indicate 'empty string'\n";
-	$outputProjectDir = prompt( array('title'=>"Project directory"), $outputProjectDir );
+	$outputProjectDir = prompt( array(
+		'title' => "Project directory",
+		'notes' => array(
+			"Enter the name of the directory in which you want to create the project.",
+			"I usually use some UpperCamelCase thing like 'SomethingSomethingWebServices'.",
+			"This is where I'll write the new project to but otherwise it isn't recorded",
+			"anywhere, so don't spend too much time thinking about it.",
+			"Enter '.' for the current directory."
+		),
+	), $outputProjectDir );
 }
 
 $outputSettingsFile = "{$outputProjectDir}/.ppi-settings.json";
@@ -279,7 +316,13 @@ if( $interactive ) {
 	$outputProjectSettings = defaultSettings($outputProjectSettings);
 	foreach( $settingsMetadata as $k=>$info ) {
 		if( $k == 'projectName' ) continue; // Already asked!
-		$v = isset($outputProjectSettings[$k]) ? $outputProjectSettings[$k] : '';
+		if( isset($outputProjectSettings[$k]) ) {
+			$v = $outputProjectSettings[$k];
+		} else if( isset($info['defaultValue']) ) {
+			$v = $info['defaultValue'];
+		} else {
+			$v = '';
+		}
 		$outputProjectSettings[$k] = prompt( $info, $v );
 	}
 } else {
@@ -299,7 +342,14 @@ if( $makeCommits ) {
 	$gitGlobalUserEmail = `git config --global --get user.email`;
 	if( !$gitUserName and !$gitGlobalUserName ) {
 		if( $interactive ) {
-			$gitUserName = prompt(array('title'=>"Git user name"));
+			$gitUserName = prompt(array(
+				'title' => "Git user name",
+				'notes' => array(
+					"After rewriting, I'm going to create an initial commit for you.",
+					"Since you don't have a Git username configured globally, I will set it on",
+					"the newly created project to whatever you tell me here.",
+				)
+			));
 		} else {
 			fwrite(STDERR, "Can't make commit because no git user.name specified or configured globally.\n");
 			exit(1);
@@ -312,6 +362,15 @@ if( $makeCommits ) {
 			fwrite(STDERR, "Can't make commit because no git user.email specified or configured globally.\n");
 			exit(1);
 		}
+	}
+	
+	if( empty($gitUserName) ) {
+		$gitUserName = "PHPProjectInitializer";
+		if( $interactive ) echo "Defaulting Git username to $gitUserName\n";
+	}
+	if( empty($gitUserEmail) ) {
+		$gitUserEmail = "PHPProjectInitializer@earthit.com";
+		if( $interactive ) echo "Defaulting Git user e-mail address to $gitUserEmail\n";
 	}
 }
 
