@@ -253,7 +253,7 @@ if( $outputProjectDir === null and !$interactive ) {
 //// Build PHPProjectInitializer if needed ////
 
 $prereqs = array('vendor');
-if( strpos($templateProjectDir,$baseDir) === 0 and !file_exists($templateProjectDir) ) {
+if( strpos($templateProjectDir,$baseDir) === 0 ) {
 	$prereqs[] = substr($templateProjectDir,strlen($baseDir)+1);
 }
 
