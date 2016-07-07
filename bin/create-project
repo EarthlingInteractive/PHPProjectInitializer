@@ -50,7 +50,7 @@ function defaultSettings( array $settings ) {
 	_defalt($settings, 'databaseHost', 'localhost');
 	_defalt($settings, 'databaseUser', $settings['databaseName']);
 	_defalt($settings, 'databasePassword', $settings['databaseName']);
-	_defalt($settings, 'databaseNamespace', 'public');
+	_defalt($settings, 'databaseNamespace', $settings['databaseName']);
 	return $settings;
 }
 
